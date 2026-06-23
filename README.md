@@ -118,7 +118,7 @@ python manage.py runserver
 
 The Django API will be available at: **http://localhost:8000**
 
-Django Admin panel: **http://localhost:8000/admin/**
+Django Admin panel: **http://localhost:8000/api/admin/**
 
 ---
 
