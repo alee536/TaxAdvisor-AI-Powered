@@ -1,7 +1,6 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from django.db import models as django_models
 
 from .models import Product
 from .serializers import ProductSerializer
@@ -82,10 +81,3 @@ def assistant(request):
 
     result = get_assistant_response(question)
     return Response(result, status=status.HTTP_200_OK)
-
-
-@api_view(['GET'])
-def admin_products(request):
-    products = Product.objects.all()
-    serializer = ProductSerializer(products, many=True)
-    return Response(serializer.data)

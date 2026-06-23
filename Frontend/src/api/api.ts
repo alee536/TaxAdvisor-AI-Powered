@@ -75,9 +75,6 @@ export interface AssistantResponse {
 export const getProducts = (): Promise<Product[]> =>
   apiClient.get<Product[]>('/products/').then((r) => r.data);
 
-export const getAdminProducts = (): Promise<Product[]> =>
-  apiClient.get<Product[]>('/config/products/').then((r) => r.data);
-
 export const postRecommend = (data: RecommendRequest): Promise<RecommendResponse> =>
   apiClient.post<RecommendResponse>('/recommend/', data).then((r) => r.data);
 

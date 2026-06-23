@@ -6,7 +6,6 @@ import Products from './pages/Products';
 import Compare from './pages/Compare';
 import Recommend from './pages/Recommend';
 import Assistant from './pages/Assistant';
-import AdminProducts from './pages/AdminProducts';
 
 function NotFound() {
   return (
@@ -41,7 +40,6 @@ export default function App() {
           <Route path="/compare" element={<Compare />} />
           <Route path="/recommend" element={<Recommend />} />
           <Route path="/assistant" element={<Assistant />} />
-          <Route path="/admin/products" element={<AdminProducts />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </AppLayout>

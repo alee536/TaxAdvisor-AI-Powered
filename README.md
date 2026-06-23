@@ -58,8 +58,7 @@ Project Folder/
 - **Recommendation wizard** — 4–5 step guided questionnaire with progress bar and dynamic routing (company revenue step only shown for incorporated companies)
 - **Recommendation result** — structured card with product name, price, reasons, matched inputs, optional upgrade hint, and disclaimer
 - **AI Assistant** — clean chat interface with 7 sample questions, typing indicator, keyword-based safe responses
-- **Admin / Config page** — read-only product table with supported/unsupported feature flags and JSON export button
-- **Django Admin** — full CRUD for products at `/api/admin/` (requires superuser)
+- **Django Admin** — protected full CRUD for products at `/admin/` (requires a staff account)
 - **SQLite database** — pre-seeded with all 8 products via management command
 
 ---
@@ -118,7 +117,7 @@ python manage.py runserver
 
 The Django API will be available at: **http://localhost:8000**
 
-Django Admin panel: **http://localhost:8000/api/admin/**
+Django Admin panel: **http://localhost:8000/admin/**
 
 ---
 
@@ -148,8 +147,7 @@ The React app will be available at: **http://localhost:5173** (or the next avail
 | GET    | `/api/products/`       | Returns all 8 tax software products                |
 | POST   | `/api/recommend/`      | Accepts questionnaire answers, returns a recommendation |
 | POST   | `/api/assistant/`      | Accepts a natural-language question, returns a safe rule-based response |
-| GET    | `/api/admin/products/` | Returns all products for the frontend config view  |
-| —      | `/api/admin/`          | Django Admin panel (full CRUD, requires superuser) |
+| —      | `/admin/`              | Protected Django Admin panel (full CRUD, requires a staff account) |
 
 ### POST `/api/recommend/` — Request Body
 
@@ -264,18 +262,9 @@ The assistant is fully simulated and rule-based — no external AI API is used.
 
 ---
 
-## Admin / Config Page
+## Administration
 
-**Frontend route:** `/admin/products`
-
-The read-only config page displays:
-- Product ID, name, price (CAD), currency
-- Best-for description
-- All supported features (green checkmarks)
-- All unsupported features (red cross marks)
-- JSON export button for the full product dataset
-
-**Django Admin:** `/api/admin/` — full CRUD for products (requires superuser account)
+The navbar's **Admin** link opens Django Admin at `/admin/`. Django requires authentication before granting access, and staff users can create, edit, search, filter, and delete product configuration records.
 
 ---
 
@@ -302,7 +291,6 @@ The read-only config page displays:
 - The AI assistant is fully simulated and rule-based; it does not use a real language model
 - Django Admin requires manual superuser creation (`python manage.py createsuperuser`)
 - The database is SQLite — suitable for development and demonstration, not production scale
-- The frontend admin page is read-only; product creation/editing requires the Django Admin panel
 
 ---
 
@@ -314,8 +302,6 @@ The following features were scoped out to prioritize core correctness and local 
 - Multilingual support (French/English for the Canadian audience)
 - Real AI API integration (OpenAI, Gemini, or Anthropic) with appropriate safety guardrails
 - Automated test suite (unit tests for recommendation engine, integration tests for API endpoints)
-- Role-based access control for the admin page
-- Full frontend admin CRUD (add/edit/delete products without Django Admin)
 - CI/CD workflow for automated linting and testing on push
 - PostgreSQL migration for production-grade persistence
 

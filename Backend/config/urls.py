@@ -6,6 +6,6 @@ admin.site.site_title = 'TaxAdvisor'
 admin.site.index_title = 'Product Management'
 
 urlpatterns = [
-    path('api/admin/', admin.site.urls),
+    path('admin/', admin.site.urls),
     path('api/', include('products.urls')),
 ]

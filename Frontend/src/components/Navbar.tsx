@@ -53,7 +53,7 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
-          <Link to="/admin/products" style={{
+          <a href="/admin/" style={{
             marginLeft: '0.5rem',
             color: '#94a3b8',
             textDecoration: 'none',
@@ -64,7 +64,7 @@ export default function Navbar() {
             transition: 'all 0.15s',
           }}>
             Admin
-          </Link>
+          </a>
         </div>
 
         <button
@@ -111,13 +111,13 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
-          <Link
-            to="/admin/products"
+          <a
+            href="/admin/"
             onClick={() => setOpen(false)}
             style={{ display: 'block', color: '#94a3b8', textDecoration: 'none', padding: '0.625rem 1rem', fontSize: '0.875rem' }}
           >
             Admin
-          </Link>
+          </a>
         </div>
       )}
 
