@@ -10,7 +10,7 @@ An AI-assisted web application that helps users find the right tax software prod
 |----------|----------------------------------------------------------------------------|
 | Frontend | React 19, Vite 7, TypeScript 5, Tailwind CSS 4, React Router v6, Axios    |
 | Backend  | Python 3.x, Django 4.2, Django REST Framework 3.14, SQLite                 |
-| AI       | Simulated rule-based assistant (no external API required)                  |
+| AI       | Rule-based assistant with optional Gemini wording enhancement               |
 | Admin    | Django built-in protected Admin interface                                  |
 
 ---
@@ -70,7 +70,7 @@ Project Folder/
 - **Compare page** — side-by-side feature comparison table for all 8 products
 - **Recommendation wizard** — 4–5 step guided questionnaire with progress bar and dynamic routing (company revenue step only shown for incorporated companies)
 - **Recommendation result** — structured card with product name, price, reasons, matched inputs, optional upgrade hint, and disclaimer
-- **AI Assistant** — clean chat interface with 7 sample questions, typing indicator, keyword-based safe responses
+- **AI Assistant** — rule-grounded guidance with optional Gemini wording and automatic safe fallback
 - **Django Admin** — protected full CRUD for products at `/admin/` (requires a staff account)
 - **SQLite database** — pre-seeded with all 8 products via management command
 
@@ -113,6 +113,10 @@ source ../.venv/bin/activate
 
 # Install Python dependencies
 pip install -r requirements.txt
+
+# Optional: enable Gemini wording enhancements
+# Create Backend/.env and add:
+GEMINI_API_KEY=your_key_here
 
 # Apply database migrations
 python manage.py makemigrations
@@ -254,13 +258,25 @@ The engine uses a deterministic priority-based decision tree. Higher-priority ru
 
 **File:** `Backend/products/assistant_engine.py`
 
-The assistant is fully simulated and rule-based — no external AI API is used.
+The assistant is rule-based by default. Product selection always uses the existing rules. Gemini is optional and is used only to improve the wording of an already rule-determined explanation.
 
 **How it works:**
 1. The user's question is lowercased and scanned for product-related keywords
-2. Matched keywords map to specific product facts, comparisons, and eligibility rules
-3. The engine returns a structured response with a recommendation or explanation
-4. All responses include a legal safety disclaimer
+2. Matched keywords map to product rules that determine the final recommendation
+3. Product details are read from the shared Django database configuration rather than duplicated inside the assistant
+4. When `GEMINI_API_KEY` is configured, Gemini may reword the rule-determined explanation; it never chooses the product
+5. If the key is missing, invalid, rate-limited, or Gemini fails, the assistant automatically remains in rule-based mode
+6. All responses include a safety disclaimer and a `source` value of `gemini` or `rule-based`
+
+### Optional Gemini setup
+
+Create `Backend/.env` from `Backend/.env.example` and add your key:
+
+```env
+GEMINI_API_KEY=your_key_here
+```
+
+The key stays on the backend and is never sent to the React application. Without a key, the assistant continues to work using the simulated rule-based responses.
 
 **Safety behavior:**
 - The assistant will NOT guarantee refunds, tax outcomes, or deduction eligibility
@@ -301,7 +317,7 @@ The navbar's **Admin** link opens Django Admin at `/admin/`. Django requires aut
 
 ## Known Limitations
 
-- The AI assistant is fully simulated and rule-based; it does not use a real language model
+- Gemini wording enhancement is optional; without `GEMINI_API_KEY`, the assistant runs entirely in rule-based mode
 - Django Admin requires manual superuser creation (`python manage.py createsuperuser`)
 - The database is SQLite — suitable for development and demonstration, not production scale
 
@@ -313,7 +329,6 @@ The following features were scoped out to prioritize core correctness and local 
 
 - PDF export of the recommendation result
 - Multilingual support (French/English for the Canadian audience)
-- Real AI API integration (OpenAI, Gemini, or Anthropic) with appropriate safety guardrails
 - Automated test suite (unit tests for recommendation engine, integration tests for API endpoints)
 - CI/CD workflow for automated linting and testing on push
 - PostgreSQL migration for production-grade persistence

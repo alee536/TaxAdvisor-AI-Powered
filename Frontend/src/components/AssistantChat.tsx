@@ -19,10 +19,14 @@ const SAMPLE_QUESTIONS = [
   'Can you guarantee I will get a refund?',
 ];
 
+const isSingleAcknowledgement = (message: string) =>
+  /^(?:ok|oky|okay)$/.test(message.trim().toLowerCase().replace(/[.!?]+$/, ''));
+
 export default function AssistantChat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
+  const [awaitingProductTopic, setAwaitingProductTopic] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   let nextId = useRef(1);
 
@@ -33,13 +37,15 @@ export default function AssistantChat() {
   async function sendMessage(question: string) {
     if (!question.trim() || loading) return;
 
+    const isAcknowledgement = isSingleAcknowledgement(question);
+    const conversationContext = awaitingProductTopic ? 'awaiting_product_topic' : undefined;
     const userMsg: Message = { id: nextId.current++, role: 'user', content: question };
     setMessages((prev) => [...prev, userMsg]);
     setInput('');
     setLoading(true);
 
     try {
-      const response = await postAssistant({ question });
+      const response = await postAssistant({ question, conversationContext });
       const assistantMsg: Message = {
         id: nextId.current++,
         role: 'assistant',
@@ -47,6 +53,7 @@ export default function AssistantChat() {
         response,
       };
       setMessages((prev) => [...prev, assistantMsg]);
+      setAwaitingProductTopic(isAcknowledgement);
     } catch {
       const errorMsg: Message = {
         id: nextId.current++,

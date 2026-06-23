@@ -62,6 +62,7 @@ export interface RecommendResponse {
 
 export interface AssistantRequest {
   question: string;
+  conversationContext?: 'awaiting_product_topic';
 }
 
 export interface AssistantResponse {

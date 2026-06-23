@@ -1,6 +1,9 @@
 import logging
 import os
+import re
 from pathlib import Path
+
+from .models import Product
 
 try:
     from dotenv import load_dotenv
@@ -32,69 +35,88 @@ UNSAFE_TOPICS = [
     "you will get", "you are guaranteed",
 ]
 
-PRODUCT_DESCRIPTIONS = {
-    "free": {
-        "name": "Free",
-        "price": "CAD $0",
-        "best_for": "Simple personal tax returns with salary or student income and no deductions.",
-        "supports": ["salary income", "student income", "basic personal return"],
-        "does_not_support": ["medical expenses", "donations", "investment income", "rental income",
-                             "self-employment income", "business income", "expert help"],
+
+PROJECT_KEYWORDS = (
+    "product", "tax", "income", "salary", "student", "investment", "capital gain", "rental",
+    "freelance", "self-employed", "gig", "donation", "medical", "employment expense", "home office",
+    "vehicle", "business", "incorporated", "company", "file", "expert", "deduction",
+)
+
+# This is the assistant's deterministic boundary.  Keep fixed, non-product replies
+# together so they are consistent, easy to review, and do not spend Gemini credits.
+ACKNOWLEDGEMENT_PATTERN = re.compile(r"^(?:ok|oky|okay)$", re.IGNORECASE)
+GREETING_PATTERN = re.compile(r"^(?:hi|hello|hey)$", re.IGNORECASE)
+GEMINI_INFO_PATTERN = re.compile(r"^(?:gemini|what is gemini|are you gemini)$", re.IGNORECASE)
+AFFIRMATIVE_PATTERN = re.compile(
+    r"^(?:yes|yes please|yeah|yep|y|sure|sure thing|please|of course|certainly|i do|go ahead|continue|more|tell me more)$",
+    re.IGNORECASE,
+)
+NEGATIVE_PATTERN = re.compile(
+    r"^(?:no|nope|nah|not now|no thanks|no thank you|not really|that's all|all good)$",
+    re.IGNORECASE,
+)
+
+FIXED_RESPONSES = {
+    "acknowledgement": {
+        "answer": "Would you like to explore another TaxAdvisor product option?",
+        "recommendedProduct": None,
+        "confidence": "low",
+        "reasons": ["The message was a single-word acknowledgement."],
     },
-    "deluxe": {
-        "name": "Deluxe",
-        "price": "CAD $30",
-        "best_for": "Users with common deductions such as medical expenses, donations, or employment expenses.",
-        "supports": ["salary income", "student income", "medical expenses", "donations",
-                     "employment expenses", "family deductions"],
-        "does_not_support": ["investment income", "rental income", "self-employment income", "corporate filing"],
+    "follow_up_prompt": {
+        "answer": "What would you like to know about TaxAdvisor products?",
+        "recommendedProduct": None,
+        "confidence": "low",
+        "reasons": ["The user accepted the offer to explore another product topic."],
     },
-    "premier": {
-        "name": "Premier",
-        "price": "CAD $50",
-        "best_for": "Users with investments, rental income, capital gains, or foreign income.",
-        "supports": ["investment income", "capital gains", "foreign income", "rental income",
-                     "medical expenses", "donations"],
-        "does_not_support": ["self-employment income", "corporate filing"],
+    "follow_up_closed": {
+        "answer": "No problem—ask a TaxAdvisor product question whenever you’re ready.",
+        "recommendedProduct": None,
+        "confidence": "low",
+        "reasons": ["The user declined the optional follow-up."],
     },
-    "self-employed": {
-        "name": "Self-Employed",
-        "price": "CAD $70",
-        "best_for": "Freelancers, contractors, gig workers, and sole proprietors.",
-        "supports": ["freelance income", "gig-work income", "business expenses", "home-office expenses",
-                     "vehicle expenses", "investment income", "rental income"],
-        "does_not_support": ["incorporated business filing"],
+    "greeting": {
+        "answer": "Hello—tell me about your income, deductions, or level of expert help and I’ll suggest a TaxAdvisor product.",
+        "recommendedProduct": None,
+        "confidence": "low",
+        "reasons": ["More product-selection details are needed."],
     },
-    "expert-assist": {
-        "name": "Expert Assist",
-        "price": "CAD $120",
-        "best_for": "Users who want to file themselves but need expert guidance.",
-        "supports": ["all personal tax situations", "expert chat", "expert video call", "expert review"],
-        "does_not_support": ["full handoff filing", "incorporated business filing"],
+    "gemini_info": {
+        "answer": "Gemini only improves the wording; TaxAdvisor’s configured product rules always make the recommendation.",
+        "recommendedProduct": None,
+        "confidence": "low",
+        "reasons": ["Gemini does not independently choose a product."],
     },
-    "expert-full-service": {
-        "name": "Expert Full Service",
-        "price": "CAD $250",
-        "best_for": "Users who want an expert to prepare and file their return.",
-        "supports": ["all personal tax situations", "document upload", "expert prepares return",
-                     "expert files return", "progress tracking"],
-        "does_not_support": ["incorporated business filing"],
+    "safety": {
+        "answer": "I can’t guarantee tax outcomes or provide professional advice; I can only offer general TaxAdvisor product guidance.",
+        "recommendedProduct": None,
+        "confidence": "n/a",
+        "reasons": ["The request is outside safe product guidance."],
     },
-    "business-corporate": {
-        "name": "Business Corporate",
-        "price": "CAD $400",
-        "best_for": "Incorporated companies with revenue.",
-        "supports": ["corporate tax return", "business revenue", "business expenses", "corporate filing review"],
-        "does_not_support": ["personal tax return"],
+    "out_of_scope": {
+        "answer": "I can only help with TaxAdvisor product selection, such as income, deductions, expert help, or product features.",
+        "recommendedProduct": None,
+        "confidence": "low",
+        "reasons": ["The question is outside the product-guidance scope."],
     },
-    "nil-corporate-return": {
-        "name": "Nil Corporate Return",
-        "price": "CAD $175",
-        "best_for": "Incorporated companies with no revenue.",
-        "supports": ["incorporated company filing", "no-revenue company", "nil return"],
-        "does_not_support": ["personal tax return", "companies with revenue"],
+    "comparison_details": {
+        "answer": "Tell me which TaxAdvisor products you want to compare, or share your income and deductions so I can find a suitable match.",
+        "recommendedProduct": None,
+        "confidence": "low",
+        "reasons": ["More details are needed for a specific comparison."],
+    },
+    "missing_details": {
+        "answer": "Please share your income, deductions, and preferred level of help so I can suggest a suitable TaxAdvisor product.",
+        "recommendedProduct": None,
+        "confidence": "low",
+        "reasons": ["Insufficient details to determine a product recommendation."],
     },
 }
+
+
+def _fixed_response(name: str) -> dict:
+    """Return a concise, reviewed response for a non-recommendation intent."""
+    return {**FIXED_RESPONSES[name], "disclaimer": DISCLAIMER}
 
 
 def _check_unsafe(question: str) -> bool:
@@ -102,49 +124,48 @@ def _check_unsafe(question: str) -> bool:
     return any(phrase in lower for phrase in UNSAFE_TOPICS)
 
 
-def _build_product_summary(product_id: str) -> str:
-    p = PRODUCT_DESCRIPTIONS.get(product_id)
-    if not p:
-        return ""
-    return (
-        f"{p['name']} ({p['price']}) — {p['best_for']} "
-        f"Supports: {', '.join(p['supports'][:4])}."
-    )
-
-
-def _get_rule_based_response(question: str) -> dict:
+def _is_project_related(question: str) -> bool:
     lower = question.lower()
+    return any(keyword in lower for keyword in PROJECT_KEYWORDS)
 
-    if _check_unsafe(question) and any(
-        phrase in lower for phrase in [
-            "guarantee", "guaranteed", "you will get", "definitely get",
-            "you must", "legal advice", "tax advice"
-        ]
-    ):
-        return {
-            "answer": (
-                "Based on the product rules, I can help you identify which product may suit your situation. "
-                "However, I cannot guarantee any specific tax outcome, refund, or eligibility. "
-                "Please consult a qualified tax professional for personalized advice."
-            ),
-            "recommendedProduct": None,
-            "confidence": "n/a",
-            "reasons": ["Questions about guaranteed outcomes fall outside product guidance."],
-            "disclaimer": DISCLAIMER,
-        }
 
-    if "refund" in lower and ("guarantee" in lower or "will i" in lower or "can i" in lower):
-        return {
-            "answer": (
-                "I'm not able to comment on whether you will receive a refund or how much. "
-                "Tax outcomes depend on many factors beyond product selection. "
-                "Please consult a qualified tax professional for personalized tax advice."
-            ),
-            "recommendedProduct": None,
-            "confidence": "n/a",
-            "reasons": ["Refund guarantees are outside the scope of product guidance."],
-            "disclaimer": DISCLAIMER,
-        }
+def _short_rule_explanation(rule_response: dict) -> str:
+    product = rule_response.get("recommendedProduct")
+    if not product:
+        return "Please share your income type, deductions, and preferred level of help so I can suggest a suitable product."
+
+    product_name = product.split(" — ", 1)[0]
+    try:
+        best_for = Product.objects.only("best_for").get(name=product_name).best_for.rstrip(".")
+        return f"{product_name} appears suitable for {best_for[0].lower() + best_for[1:]}."
+    except (Product.DoesNotExist, IndexError):
+        return f"{product_name} appears suitable based on your selected income, deductions, and help preference."
+
+
+def _get_rule_based_response(question: str, conversation_context: str | None = None) -> dict:
+    lower = question.lower()
+    normalized = " ".join(lower.split()).strip(".!? ")
+
+    if _check_unsafe(question):
+        return _fixed_response("safety")
+
+    if ACKNOWLEDGEMENT_PATTERN.fullmatch(normalized):
+        return _fixed_response("acknowledgement")
+
+    if conversation_context == "awaiting_product_topic":
+        if AFFIRMATIVE_PATTERN.fullmatch(normalized):
+            return _fixed_response("follow_up_prompt")
+        if NEGATIVE_PATTERN.fullmatch(normalized):
+            return _fixed_response("follow_up_closed")
+
+    if GREETING_PATTERN.fullmatch(normalized):
+        return _fixed_response("greeting")
+
+    if GEMINI_INFO_PATTERN.fullmatch(normalized):
+        return _fixed_response("gemini_info")
+
+    if not _is_project_related(question):
+        return _fixed_response("out_of_scope")
 
     if "nil" in lower or ("incorporated" in lower and "no revenue" in lower) or ("company" in lower and "no revenue" in lower):
         return {
@@ -286,29 +307,9 @@ def _get_rule_based_response(question: str) -> dict:
                 "disclaimer": DISCLAIMER,
             }
 
-        return {
-            "answer": (
-                "I can help compare products. Please tell me which two products you'd like to compare, "
-                "or describe your income and deduction situation so I can find the best match for you."
-            ),
-            "recommendedProduct": None,
-            "confidence": "low",
-            "reasons": ["More details needed to provide a specific comparison."],
-            "disclaimer": DISCLAIMER,
-        }
+        return _fixed_response("comparison_details")
 
-    return {
-        "answer": (
-            "Based on the provided product rules, I wasn't able to identify a specific product match "
-            "from your question. Could you share more details such as your income type (salary, freelance, "
-            "investment), any deductions you plan to claim (medical, donations), and whether you need "
-            "expert help? This will help me suggest the most appropriate product."
-        ),
-        "recommendedProduct": None,
-        "confidence": "low",
-        "reasons": ["Insufficient details to determine a product recommendation."],
-        "disclaimer": DISCLAIMER,
-    }
+    return _fixed_response("missing_details")
 
 
 def _safe_gemini_explanation(question: str, rule_response: dict) -> str | None:
@@ -321,13 +322,26 @@ def _safe_gemini_explanation(question: str, rule_response: dict) -> str | None:
         return None
 
     selected_name = recommended_product.split(" — ", 1)[0]
+    try:
+        configured_product = Product.objects.only(
+            "name", "price", "currency", "description", "best_for"
+        ).get(name=selected_name)
+    except Product.DoesNotExist:
+        return None
+    except Exception:
+        logger.info("Product configuration unavailable; using the rule-based assistant.")
+        return None
+
     prompt = (
         f"User question: {question}\n\n"
         f"Rule-determined product: {recommended_product}\n"
         f"Rule-determined reasons: {' '.join(rule_response['reasons'])}\n\n"
-        "Write a concise, friendly explanation of this exact rule-determined product in no more than "
-        "two sentences. Do not choose a product, mention another product, introduce new facts, provide "
-        "professional advice, or make guarantees."
+        f"Product configuration: {configured_product.name} ({configured_product.currency} "
+        f"${configured_product.price}) — {configured_product.description} Best for: "
+        f"{configured_product.best_for}\n\n"
+        f"Reply with exactly one complete sentence of at most 40 words that includes '{selected_name}'. "
+        "Do not choose a product, mention another product, introduce new facts, provide professional advice, "
+        "or make guarantees."
     )
 
     try:
@@ -341,7 +355,10 @@ def _safe_gemini_explanation(question: str, rule_response: dict) -> str | None:
             config=types.GenerateContentConfig(
                 system_instruction=GEMINI_SYSTEM_INSTRUCTION,
                 temperature=0.2,
-                max_output_tokens=160,
+                max_output_tokens=64,
+                # This is a concise wording task, not a reasoning task. Disabling
+                # thinking keeps the small output budget available for the reply.
+                thinking_config=types.ThinkingConfig(thinking_budget=0),
             ),
         )
         explanation = (response.text or "").strip()
@@ -353,25 +370,39 @@ def _safe_gemini_explanation(question: str, rule_response: dict) -> str | None:
         "guarantee", "guaranteed", "refund", "deduction eligibility", "government acceptance",
         "tax advice", "legal advice", "financial advice", "accounting advice",
     )
-    if not explanation or any(phrase in explanation.lower() for phrase in prohibited_phrases):
+    explanation = " ".join(explanation.split())
+    if (
+        not explanation
+        or selected_name.lower() not in explanation.lower()
+        or len(explanation.split()) > 40
+        or not explanation.endswith((".", "!", "?"))
+        or any(phrase in explanation.lower() for phrase in prohibited_phrases)
+    ):
         return None
 
-    for product in PRODUCT_DESCRIPTIONS.values():
-        product_name = product["name"]
+    try:
+        other_product_names = Product.objects.exclude(pk=configured_product.pk).values_list("name", flat=True)
+    except Exception:
+        logger.info("Product configuration unavailable; using the rule-based assistant.")
+        return None
+
+    for product_name in other_product_names:
         if product_name != selected_name and product_name.lower() in explanation.lower():
             return None
 
     return explanation
 
 
-def get_assistant_response(question: str) -> dict:
+def get_assistant_response(question: str, conversation_context: str | None = None) -> dict:
     """Return rule-grounded guidance, optionally polished by Gemini."""
-    rule_response = _get_rule_based_response(question)
+    rule_response = _get_rule_based_response(question, conversation_context)
     response = {**rule_response, "source": "rule-based"}
     explanation = _safe_gemini_explanation(question, rule_response)
 
     if explanation:
         response["answer"] = explanation
         response["source"] = "gemini"
+    elif response["recommendedProduct"]:
+        response["answer"] = _short_rule_explanation(rule_response)
 
     return response

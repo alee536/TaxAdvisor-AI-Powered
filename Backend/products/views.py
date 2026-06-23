@@ -79,5 +79,12 @@ def assistant(request):
             status=status.HTTP_400_BAD_REQUEST
         )
 
-    result = get_assistant_response(question)
+    conversation_context = request.data.get('conversationContext')
+    if conversation_context not in {None, '', 'awaiting_product_topic'}:
+        return Response(
+            {'error': 'Unsupported conversation context.'},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+    result = get_assistant_response(question, conversation_context or None)
     return Response(result, status=status.HTTP_200_OK)
