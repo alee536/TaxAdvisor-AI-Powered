@@ -1,0 +1,18 @@
+{
+  "name": "workspace",
+  "version": "0.0.0",
+  "license": "MIT",
+  "scripts": {
+    "preinstall": "node -e \"const fs = require('fs'); fs.existsSync('package-lock.json') && fs.unlinkSync('package-lock.json'); fs.existsSync('yarn.lock') && fs.unlinkSync('yarn.lock'); const ua = process.env.npm_config_user_agent || ''; if (!ua.startsWith('pnpm/')) { console.error('Use pnpm instead'); process.exit(1); }\"",
+    "dev": "concurrently --kill-others-on-fail --names backend,frontend --prefix-colors yellow,cyan \".venv\\\\Scripts\\\\python.exe Backend\\\\manage.py runserver\" \"pnpm --filter @workspace/tax-app dev\"",
+    "build": "pnpm run typecheck && pnpm -r --if-present run build",
+    "typecheck:libs": "tsc --build",
+    "typecheck": "pnpm run typecheck:libs && pnpm -r --if-present run typecheck"
+  },
+  "private": true,
+  "devDependencies": {
+    "concurrently": "^10.0.3",
+    "prettier": "^3.8.3",
+    "typescript": "~5.9.3"
+  }
+}

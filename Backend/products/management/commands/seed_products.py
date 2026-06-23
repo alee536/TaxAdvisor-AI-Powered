@@ -1,0 +1,145 @@
+from django.core.management.base import BaseCommand
+from products.models import Product
+
+PRODUCTS = [
+    {
+        "product_id": "free",
+        "name": "Free",
+        "price": "0.00",
+        "currency": "CAD",
+        "description": "File your personal tax return at no cost. Ideal for straightforward situations with employment income and no special deductions.",
+        "best_for": "Users with a simple personal tax situation such as salary or student income and no special deductions.",
+        "supports_salary_income": True, "supports_student_income": True,
+        "supports_medical_expenses": False, "supports_donations": False, "supports_employment_expenses": False,
+        "supports_investment_income": False, "supports_capital_gains": False, "supports_foreign_income": False,
+        "supports_rental_income": False, "supports_freelance_income": False, "supports_gig_work_income": False,
+        "supports_business_expenses": False, "supports_home_office_expenses": False, "supports_vehicle_expenses": False,
+        "supports_expert_help": False, "supports_full_service": False,
+        "supports_corporate_filing": False, "supports_nil_corporate_return": False,
+    },
+    {
+        "product_id": "deluxe",
+        "name": "Deluxe",
+        "price": "30.00",
+        "currency": "CAD",
+        "description": "Everything in Free, plus support for medical expenses, charitable donations, and employment-related deductions.",
+        "best_for": "Users with common deductions and expenses such as medical bills, donations, or employment costs.",
+        "supports_salary_income": True, "supports_student_income": True,
+        "supports_medical_expenses": True, "supports_donations": True, "supports_employment_expenses": True,
+        "supports_investment_income": False, "supports_capital_gains": False, "supports_foreign_income": False,
+        "supports_rental_income": False, "supports_freelance_income": False, "supports_gig_work_income": False,
+        "supports_business_expenses": False, "supports_home_office_expenses": False, "supports_vehicle_expenses": False,
+        "supports_expert_help": False, "supports_full_service": False,
+        "supports_corporate_filing": False, "supports_nil_corporate_return": False,
+    },
+    {
+        "product_id": "premier",
+        "name": "Premier",
+        "price": "50.00",
+        "currency": "CAD",
+        "description": "Everything in Deluxe, plus full support for investment portfolios, rental properties, capital gains, and foreign income.",
+        "best_for": "Users with investments, rental income, capital gains, or foreign income.",
+        "supports_salary_income": True, "supports_student_income": True,
+        "supports_medical_expenses": True, "supports_donations": True, "supports_employment_expenses": True,
+        "supports_investment_income": True, "supports_capital_gains": True, "supports_foreign_income": True,
+        "supports_rental_income": True, "supports_freelance_income": False, "supports_gig_work_income": False,
+        "supports_business_expenses": False, "supports_home_office_expenses": False, "supports_vehicle_expenses": False,
+        "supports_expert_help": False, "supports_full_service": False,
+        "supports_corporate_filing": False, "supports_nil_corporate_return": False,
+    },
+    {
+        "product_id": "self-employed",
+        "name": "Self-Employed",
+        "price": "70.00",
+        "currency": "CAD",
+        "description": "Comprehensive coverage for freelancers, contractors, gig workers, and sole proprietors including business expenses and home-office deductions.",
+        "best_for": "Freelancers, contractors, gig workers, and sole proprietors.",
+        "supports_salary_income": True, "supports_student_income": True,
+        "supports_medical_expenses": True, "supports_donations": True, "supports_employment_expenses": True,
+        "supports_investment_income": True, "supports_capital_gains": False, "supports_foreign_income": False,
+        "supports_rental_income": True, "supports_freelance_income": True, "supports_gig_work_income": True,
+        "supports_business_expenses": True, "supports_home_office_expenses": True, "supports_vehicle_expenses": True,
+        "supports_expert_help": False, "supports_full_service": False,
+        "supports_corporate_filing": False, "supports_nil_corporate_return": False,
+    },
+    {
+        "product_id": "expert-assist",
+        "name": "Expert Assist",
+        "price": "120.00",
+        "currency": "CAD",
+        "description": "File your own return with access to a live tax expert for guidance, review, and answers via chat or video call.",
+        "best_for": "Users who want to file themselves but need help from a tax expert along the way.",
+        "supports_salary_income": True, "supports_student_income": True,
+        "supports_medical_expenses": True, "supports_donations": True, "supports_employment_expenses": True,
+        "supports_investment_income": True, "supports_capital_gains": True, "supports_foreign_income": True,
+        "supports_rental_income": True, "supports_freelance_income": True, "supports_gig_work_income": True,
+        "supports_business_expenses": True, "supports_home_office_expenses": True, "supports_vehicle_expenses": True,
+        "supports_expert_help": True, "supports_full_service": False,
+        "supports_corporate_filing": False, "supports_nil_corporate_return": False,
+    },
+    {
+        "product_id": "expert-full-service",
+        "name": "Expert Full Service",
+        "price": "250.00",
+        "currency": "CAD",
+        "description": "A certified tax expert handles everything — document collection, return preparation, and filing — while you track progress.",
+        "best_for": "Users who want an expert to prepare and file their return from start to finish.",
+        "supports_salary_income": True, "supports_student_income": True,
+        "supports_medical_expenses": True, "supports_donations": True, "supports_employment_expenses": True,
+        "supports_investment_income": True, "supports_capital_gains": True, "supports_foreign_income": True,
+        "supports_rental_income": True, "supports_freelance_income": True, "supports_gig_work_income": True,
+        "supports_business_expenses": True, "supports_home_office_expenses": True, "supports_vehicle_expenses": True,
+        "supports_expert_help": True, "supports_full_service": True,
+        "supports_corporate_filing": False, "supports_nil_corporate_return": False,
+    },
+    {
+        "product_id": "business-corporate",
+        "name": "Business Corporate",
+        "price": "400.00",
+        "currency": "CAD",
+        "description": "Corporate tax return filing for incorporated companies with revenue, including business expense reporting and corporate filing review.",
+        "best_for": "Incorporated companies with business revenue.",
+        "supports_salary_income": False, "supports_student_income": False,
+        "supports_medical_expenses": False, "supports_donations": False, "supports_employment_expenses": False,
+        "supports_investment_income": False, "supports_capital_gains": False, "supports_foreign_income": False,
+        "supports_rental_income": False, "supports_freelance_income": False, "supports_gig_work_income": False,
+        "supports_business_expenses": True, "supports_home_office_expenses": False, "supports_vehicle_expenses": False,
+        "supports_expert_help": False, "supports_full_service": False,
+        "supports_corporate_filing": True, "supports_nil_corporate_return": False,
+    },
+    {
+        "product_id": "nil-corporate-return",
+        "name": "Nil Corporate Return",
+        "price": "175.00",
+        "currency": "CAD",
+        "description": "Corporate filing for incorporated companies that had zero revenue during the tax year. Satisfies the CRA filing requirement at a reduced rate.",
+        "best_for": "Incorporated companies with no revenue during the tax year.",
+        "supports_salary_income": False, "supports_student_income": False,
+        "supports_medical_expenses": False, "supports_donations": False, "supports_employment_expenses": False,
+        "supports_investment_income": False, "supports_capital_gains": False, "supports_foreign_income": False,
+        "supports_rental_income": False, "supports_freelance_income": False, "supports_gig_work_income": False,
+        "supports_business_expenses": False, "supports_home_office_expenses": False, "supports_vehicle_expenses": False,
+        "supports_expert_help": False, "supports_full_service": False,
+        "supports_corporate_filing": True, "supports_nil_corporate_return": True,
+    },
+]
+
+
+class Command(BaseCommand):
+    help = 'Seed the database with initial product data'
+
+    def handle(self, *args, **options):
+        created = 0
+        updated = 0
+        for product_data in PRODUCTS:
+            obj, was_created = Product.objects.update_or_create(
+                product_id=product_data['product_id'],
+                defaults=product_data,
+            )
+            if was_created:
+                created += 1
+            else:
+                updated += 1
+        self.stdout.write(
+            self.style.SUCCESS(f'Seeded {created} products created, {updated} updated.')
+        )

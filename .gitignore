@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.pyc
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environment
+.venv/
+venv/
+ENV/
+env/
+
+# Django
+Backend/db.sqlite3
+Backend/staticfiles/
+*.log
+
+# Node / npm / pnpm
+node_modules/
+npm-debug.log*
+yarn-error.log
+pnpm-debug.log*
+
+# Vite build output
+artifacts/*/dist/
+artifacts/*/.tsbuildinfo
+
+# IDEs and editors
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# OS
+.DS_Store
+Thumbs.db
+
+.cache/
+.local/
