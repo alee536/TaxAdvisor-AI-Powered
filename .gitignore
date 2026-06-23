@@ -19,6 +19,7 @@ env/
 # Django
 Backend/db.sqlite3
 Backend/staticfiles/
+Backend/.env
 *.log
 
 # Node / npm / pnpm

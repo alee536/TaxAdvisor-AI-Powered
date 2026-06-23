@@ -1,7 +1,30 @@
-DISCLAIMER = (
-    "This is general product guidance only and is not tax, legal, financial, "
-    "or accounting advice. Please consult a qualified tax professional for personalized advice."
+import logging
+import os
+from pathlib import Path
+
+try:
+    from dotenv import load_dotenv
+except ImportError:  # The rule-based assistant must work without optional packages.
+    load_dotenv = None
+
+
+if load_dotenv:
+    load_dotenv(Path(__file__).resolve().parents[1] / ".env")
+
+
+logger = logging.getLogger(__name__)
+
+DISCLAIMER = "This is general product guidance only and is not tax, legal, financial, or accounting advice."
+
+GEMINI_SYSTEM_INSTRUCTION = (
+    "You are a safe tax software product guidance assistant. You only explain fictional "
+    "product recommendations using the provided product rules. You must not provide tax, "
+    "legal, financial, or accounting advice. You must not guarantee refunds, deductions, "
+    "tax outcomes, or government acceptance. If asked for professional advice, refuse safely "
+    "and recommend consulting a qualified tax professional."
 )
+
+GEMINI_MODEL = "gemini-2.5-flash"
 
 UNSAFE_TOPICS = [
     "refund", "guarantee", "definitely", "qualify", "legal advice",
@@ -89,7 +112,7 @@ def _build_product_summary(product_id: str) -> str:
     )
 
 
-def get_assistant_response(question: str) -> dict:
+def _get_rule_based_response(question: str) -> dict:
     lower = question.lower()
 
     if _check_unsafe(question) and any(
@@ -286,3 +309,69 @@ def get_assistant_response(question: str) -> dict:
         "reasons": ["Insufficient details to determine a product recommendation."],
         "disclaimer": DISCLAIMER,
     }
+
+
+def _safe_gemini_explanation(question: str, rule_response: dict) -> str | None:
+    """Use Gemini only to reword an already rule-selected recommendation."""
+    api_key = os.getenv("GEMINI_API_KEY")
+    recommended_product = rule_response.get("recommendedProduct")
+
+    # Do not send unsafe, ambiguous, or non-recommendation questions to Gemini.
+    if not api_key or not recommended_product or _check_unsafe(question):
+        return None
+
+    selected_name = recommended_product.split(" — ", 1)[0]
+    prompt = (
+        f"User question: {question}\n\n"
+        f"Rule-determined product: {recommended_product}\n"
+        f"Rule-determined reasons: {' '.join(rule_response['reasons'])}\n\n"
+        "Write a concise, friendly explanation of this exact rule-determined product in no more than "
+        "two sentences. Do not choose a product, mention another product, introduce new facts, provide "
+        "professional advice, or make guarantees."
+    )
+
+    try:
+        from google import genai
+        from google.genai import types
+
+        client = genai.Client(api_key=api_key)
+        response = client.models.generate_content(
+            model=GEMINI_MODEL,
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                system_instruction=GEMINI_SYSTEM_INSTRUCTION,
+                temperature=0.2,
+                max_output_tokens=160,
+            ),
+        )
+        explanation = (response.text or "").strip()
+    except Exception:
+        logger.info("Gemini wording unavailable; using the rule-based assistant.")
+        return None
+
+    prohibited_phrases = (
+        "guarantee", "guaranteed", "refund", "deduction eligibility", "government acceptance",
+        "tax advice", "legal advice", "financial advice", "accounting advice",
+    )
+    if not explanation or any(phrase in explanation.lower() for phrase in prohibited_phrases):
+        return None
+
+    for product in PRODUCT_DESCRIPTIONS.values():
+        product_name = product["name"]
+        if product_name != selected_name and product_name.lower() in explanation.lower():
+            return None
+
+    return explanation
+
+
+def get_assistant_response(question: str) -> dict:
+    """Return rule-grounded guidance, optionally polished by Gemini."""
+    rule_response = _get_rule_based_response(question)
+    response = {**rule_response, "source": "rule-based"}
+    explanation = _safe_gemini_explanation(question, rule_response)
+
+    if explanation:
+        response["answer"] = explanation
+        response["source"] = "gemini"
+
+    return response

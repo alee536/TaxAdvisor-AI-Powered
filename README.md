@@ -11,7 +11,20 @@ An AI-assisted web application that helps users find the right tax software prod
 | Frontend | React 19, Vite 7, TypeScript 5, Tailwind CSS 4, React Router v6, Axios    |
 | Backend  | Python 3.x, Django 4.2, Django REST Framework 3.14, SQLite                 |
 | AI       | Simulated rule-based assistant (no external API required)                  |
-| Admin    | Django built-in Admin + read-only frontend config page                     |
+| Admin    | Django built-in protected Admin interface                                  |
+
+---
+
+## Routes and Pages Implemented
+
+| Route | Page | Purpose |
+|---|---|---|
+| `/` | Landing page | Introduces TaxAdvisor, previews products, explains the workflow, and includes FAQs. |
+| `/products` | Products page | Lists all products with search and sorting. |
+| `/compare` | Product comparison page | Compares product prices and supported features side by side. |
+| `/recommend` | Recommendation wizard | Collects questionnaire answers and displays a rule-based recommendation. |
+| `/assistant` | AI assistant | Provides simulated, product-selection guidance with safety disclaimers. |
+| `/admin/` | Django Admin | Protected staff-only product management interface. |
 
 ---
 

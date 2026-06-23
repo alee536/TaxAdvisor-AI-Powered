@@ -70,6 +70,7 @@ export interface AssistantResponse {
   confidence: string;
   reasons: string[];
   disclaimer: string;
+  source: 'gemini' | 'rule-based';
 }
 
 export const getProducts = (): Promise<Product[]> =>
