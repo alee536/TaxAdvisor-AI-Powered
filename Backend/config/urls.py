@@ -1,11 +1,8 @@
-from django.contrib import admin
 from django.urls import path, include
 
-admin.site.site_header = 'TaxAdvisor Admin'
-admin.site.site_title = 'TaxAdvisor'
-admin.site.index_title = 'Product Management'
+from products.admin import admin_site
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin_site.urls),
     path('api/', include('products.urls')),
 ]

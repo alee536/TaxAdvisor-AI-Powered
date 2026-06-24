@@ -1,0 +1,615 @@
+:root {
+  color-scheme: light;
+  --primary: #061a35;
+  --primary-light: #0d3567;
+  --accent: #2563eb;
+  --surface: #ffffff;
+  --canvas: #f4f7fb;
+  --border: #dce5f1;
+  --text: #172033;
+  --muted: #64748b;
+  --body-fg: #172033;
+  --body-bg: #f4f7fb;
+  --body-quiet-color: #64748b;
+  --body-loud-color: #061a35;
+  --header-color: #ffffff;
+  --header-branding-color: #ffffff;
+  --header-bg: #061a35;
+  --header-link-color: #dbeafe;
+  --breadcrumbs-fg: #436084;
+  --breadcrumbs-link-fg: #1d4f91;
+  --breadcrumbs-bg: #eaf2fd;
+  --link-fg: #1d4ed8;
+  --link-hover-color: #1e40af;
+  --link-selected-fg: #1e40af;
+  --hairline-color: #dce5f1;
+  --border-color: #dce5f1;
+  --darkened-bg: #eef5ff;
+  --selected-bg: #dbeafe;
+  --selected-row: #f6faff;
+  --button-fg: #ffffff;
+  --button-bg: #2563eb;
+  --button-hover-bg: #1d4ed8;
+  --default-button-bg: #2563eb;
+  --default-button-hover-bg: #1d4ed8;
+  --close-button-bg: #64748b;
+  --close-button-hover-bg: #475569;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: light;
+    --body-fg: #172033;
+    --body-bg: #f4f7fb;
+    --body-quiet-color: #64748b;
+    --body-loud-color: #061a35;
+    --header-color: #ffffff;
+    --header-branding-color: #ffffff;
+    --header-bg: #061a35;
+    --header-link-color: #dbeafe;
+    --breadcrumbs-fg: #436084;
+    --breadcrumbs-link-fg: #1d4f91;
+    --breadcrumbs-bg: #eaf2fd;
+    --link-fg: #1d4ed8;
+    --link-hover-color: #1e40af;
+    --link-selected-fg: #1e40af;
+    --hairline-color: #dce5f1;
+    --border-color: #dce5f1;
+    --darkened-bg: #eef5ff;
+    --selected-bg: #dbeafe;
+    --selected-row: #f6faff;
+    --button-fg: #ffffff;
+    --button-bg: #2563eb;
+    --button-hover-bg: #1d4ed8;
+    --default-button-bg: #2563eb;
+    --default-button-hover-bg: #1d4ed8;
+  }
+}
+
+body {
+  background: var(--canvas);
+  color: var(--text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+#header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  min-height: 76px;
+  padding: 0 32px;
+  background: linear-gradient(110deg, var(--primary), var(--primary-light));
+  box-shadow: 0 3px 18px rgba(6, 26, 53, 0.22);
+}
+
+.taxadvisor-brand a {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.taxadvisor-mark {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.13);
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: -0.08em;
+}
+
+.taxadvisor-brand strong,
+.taxadvisor-brand small {
+  display: block;
+}
+
+.taxadvisor-brand strong {
+  font-size: 20px;
+  letter-spacing: -0.03em;
+}
+
+.taxadvisor-brand small {
+  margin-top: 1px;
+  color: #b9d5fb;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+#user-tools,
+#user-tools a,
+#header .view-site-link {
+  color: #dbeafe;
+}
+
+#user-tools {
+  margin-left: auto;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+#user-tools a {
+  margin-left: 5px;
+}
+
+#header .view-site-link {
+  display: inline-block;
+  margin-left: 18px;
+  padding: 7px 11px;
+  border: 1px solid rgba(219, 234, 254, 0.28);
+  border-radius: 7px;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+#header .view-site-link:hover,
+#user-tools a:hover {
+  color: #ffffff;
+}
+
+div.breadcrumbs {
+  padding: 13px 32px;
+  background: #eaf2fd;
+  color: #436084;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+
+div.breadcrumbs a {
+  color: #1d4f91;
+  font-weight: 700;
+}
+
+#content {
+  box-sizing: border-box;
+  width: 90%;
+  max-width: none;
+  margin: 0 auto;
+  padding: 30px 32px;
+}
+
+#content h1 {
+  margin-bottom: 24px;
+  color: var(--primary);
+  font-size: 28px;
+  font-weight: 800;
+  letter-spacing: -0.035em;
+}
+
+.module,
+.inline-group,
+#changelist-filter,
+.submit-row {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: 0 5px 18px rgba(15, 39, 73, 0.06);
+}
+
+.module,
+.inline-group {
+  margin-bottom: 20px;
+}
+
+.module h2,
+.module caption,
+.inline-group h2 {
+  padding: 13px 18px;
+  background: linear-gradient(90deg, #f8fbff, #eef5ff);
+  color: var(--primary);
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+fieldset.module {
+  padding: 0;
+}
+
+.form-row {
+  padding: 16px 18px;
+  border-bottom: 1px solid #edf1f6;
+}
+
+.form-row:last-child {
+  border-bottom: 0;
+}
+
+.form-row label {
+  color: #334155;
+  font-weight: 700;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="url"],
+input[type="email"],
+input[type="password"],
+textarea,
+select,
+.vTextField {
+  min-height: 38px;
+  border: 1px solid #c8d5e5;
+  border-radius: 7px;
+  background: #fbfdff;
+  color: var(--text);
+  box-shadow: none;
+}
+
+textarea {
+  min-height: 96px;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--accent);
+  outline: 3px solid rgba(37, 99, 235, 0.13);
+}
+
+#changelist {
+  display: grid;
+  gap: 20px;
+}
+
+#changelist #toolbar {
+  padding: 14px 16px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+}
+
+#changelist #toolbar form input {
+  border-radius: 7px;
+}
+
+#changelist table {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  box-shadow: 0 5px 18px rgba(15, 39, 73, 0.06);
+}
+
+#changelist table thead th {
+  padding: 13px 12px;
+  background: #061a35;
+  color: #ffffff;
+  border-bottom: 1px solid #061a35;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+#changelist table thead th a,
+#changelist table thead th a:link,
+#changelist table thead th a:visited {
+  color: #ffffff;
+}
+
+#changelist table thead th.sorted {
+  background: #0b2a55;
+}
+
+#changelist table tbody td,
+#changelist table tbody th {
+  padding: 13px 12px;
+  border-bottom: 1px solid #edf1f6;
+}
+
+#changelist table tbody tr:hover {
+  background: #f6faff;
+}
+
+#changelist-filter {
+  padding: 0;
+}
+
+#changelist-filter h2 {
+  padding: 13px 16px;
+  background: #eef5ff;
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+#changelist-filter h3 {
+  padding: 10px 16px 0;
+  color: #334155;
+}
+
+#changelist-filter ul {
+  padding: 0 16px 13px;
+}
+
+.button,
+input[type="submit"],
+input[type="button"],
+.submit-row input,
+a.button {
+  border: 0;
+  border-radius: 7px;
+  background: var(--accent);
+  box-shadow: 0 2px 5px rgba(37, 99, 235, 0.22);
+  color: #ffffff;
+  font-weight: 700;
+}
+
+.button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover,
+.submit-row input:hover,
+a.button:hover {
+  background: #1d4ed8;
+}
+
+.submit-row {
+  padding: 14px;
+}
+
+.object-tools a {
+  border-radius: 7px;
+  background: var(--accent);
+}
+
+.dashboard .module table th a {
+  color: var(--primary);
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.dashboard .module td {
+  padding: 13px 18px;
+}
+
+/* Django's dashboard table uses more specific built-in rules, so define every
+   visible surface explicitly to prevent the browser's dark preference leaking in. */
+.dashboard #content-main .module,
+.dashboard #content-main .module table,
+.dashboard #content-main .module tbody,
+.dashboard #content-main .module tr,
+.dashboard #content-main .module th,
+.dashboard #content-main .module td,
+#content-related,
+#content-related .module {
+  background: #ffffff !important;
+  color: #172033 !important;
+}
+
+.dashboard #content-main .module {
+  border: 1px solid #dce5f1;
+  border-radius: 12px;
+  box-shadow: 0 5px 18px rgba(15, 39, 73, 0.06);
+}
+
+.dashboard #content-main .module caption {
+  padding: 14px 18px;
+  background: #eaf2fd !important;
+  color: #163b67 !important;
+  border-bottom: 1px solid #dce5f1;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.07em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.dashboard #content-main .module caption a {
+  color: #163b67 !important;
+}
+
+.dashboard #content-main .module th,
+.dashboard #content-main .module td {
+  padding: 14px 18px;
+  border-bottom: 1px solid #edf1f6;
+}
+
+.dashboard #content-main .module tr:last-child th,
+.dashboard #content-main .module tr:last-child td {
+  border-bottom: 0;
+}
+
+.dashboard #content-main .module th a {
+  color: #0f2f5c !important;
+}
+
+.dashboard #content-main .module td a {
+  color: #1d4ed8 !important;
+  font-weight: 700;
+}
+
+.dashboard #content-main .module td a.addlink,
+.dashboard #content-main .module td a.changelink {
+  display: inline-block;
+  padding: 5px 8px 5px 23px;
+  border-radius: 6px;
+  background-color: #eff6ff !important;
+}
+
+#content-related {
+  overflow: hidden;
+  border: 1px solid #dce5f1;
+  border-radius: 12px;
+  box-shadow: 0 5px 18px rgba(15, 39, 73, 0.06);
+}
+
+#content-related .module h2 {
+  margin: 0;
+  padding: 14px 18px;
+  background: #eaf2fd !important;
+  color: #163b67 !important;
+  border-bottom: 1px solid #dce5f1;
+}
+
+#content-related .actionlist {
+  margin: 0;
+  padding: 14px 18px;
+}
+
+#content-related .actionlist li,
+#content-related .actionlist li a {
+  color: #334155 !important;
+}
+
+#content-related .actionlist li a {
+  font-weight: 700;
+}
+
+@media (max-width: 767px) {
+  #header {
+    min-height: auto;
+    padding: 14px 18px;
+  }
+
+  #user-tools {
+    margin-top: 10px;
+  }
+
+  div.breadcrumbs,
+  #content {
+    padding-right: 18px;
+    padding-left: 18px;
+  }
+
+  #content {
+    width: 100%;
+    padding-top: 22px;
+  }
+
+  #changelist table {
+    display: block;
+    overflow-x: auto;
+  }
+}
+
+/* Sign-in page: a focused, high-contrast panel instead of the stock admin form. */
+body.login {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 10% 15%, rgba(37, 99, 235, 0.16), transparent 30%),
+    linear-gradient(145deg, #edf4ff, #f8fafc 48%, #e6effc);
+}
+
+.login #container {
+  width: min(100% - 36px, 460px);
+  margin: clamp(40px, 12vh, 120px) auto;
+  overflow: hidden;
+  border: 1px solid #d8e3f1;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 22px 54px rgba(12, 39, 77, 0.18);
+}
+
+.login #header {
+  min-height: 136px;
+  padding: 28px 32px;
+  background: linear-gradient(125deg, #061a35, #0b3d78);
+  box-shadow: none;
+}
+
+.login #header .taxadvisor-brand strong {
+  font-size: 24px;
+}
+
+.login #header .taxadvisor-brand small {
+  color: #bfdbfe;
+  font-size: 10px;
+}
+
+.login #content {
+  width: auto;
+  max-width: none;
+  margin: 0;
+  padding: 30px 32px 32px;
+  background: #ffffff;
+}
+
+.login #content-main {
+  float: none;
+  width: auto;
+}
+
+.login .form-row {
+  padding: 0 0 20px;
+  border: 0;
+}
+
+.login .form-row label {
+  display: block;
+  margin-bottom: 7px;
+  color: #1e3a5f;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.login .form-row input {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 46px;
+  padding: 10px 12px;
+  border: 1px solid #bfcfe3;
+  border-radius: 9px;
+  background: #fbfdff;
+  font-size: 15px;
+}
+
+.login .submit-row {
+  margin: 2px 0 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  text-align: left;
+}
+
+.login .submit-row input {
+  width: 100%;
+  min-height: 46px;
+  margin: 0;
+  padding: 10px 16px;
+  border-radius: 9px;
+  font-size: 14px;
+}
+
+.login .errornote,
+.login ul.errorlist {
+  margin: 0 0 20px;
+  padding: 11px 13px;
+  border: 1px solid #fecaca;
+  border-radius: 9px;
+  background: #fff1f2;
+  color: #b91c1c;
+  font-size: 13px;
+}
+
+.login .errornote + ul.errorlist {
+  display: none;
+}
+
+@media (max-width: 480px) {
+  .login #container {
+    width: min(100% - 24px, 460px);
+    margin-top: 28px;
+  }
+
+  .login #header,
+  .login #content {
+    padding-right: 22px;
+    padding-left: 22px;
+  }
+}

@@ -1,0 +1,25 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}{{ title }} | TaxAdvisor Admin{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'products/admin.css' %}">
+{% endblock %}
+
+{% block branding %}
+<div id="site-name" class="taxadvisor-brand">
+  <a href="{% url 'admin:index' %}" aria-label="TaxAdvisor Admin home">
+    <span class="taxadvisor-mark">TA</span>
+    <span>
+      <strong>TaxAdvisor</strong>
+      <small>Product Management Console</small>
+    </span>
+  </a>
+</div>
+{% endblock %}
+
+{% block nav-global %}
+<a class="view-site-link" href="/">View TaxAdvisor site</a>
+{% endblock %}

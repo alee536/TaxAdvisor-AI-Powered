@@ -19,7 +19,7 @@ export default function Assistant() {
               borderRadius: '9999px',
               fontWeight: 500,
             }}>
-              Rule-based simulated AI — not a real AI model
+              Rule-grounded guidance with optional Gemini wording
             </span>
           </div>
         </div>

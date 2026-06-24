@@ -1,0 +1,83 @@
+{% extends "admin/index.html" %}
+{% load static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'admin/css/taxadvisor_admin.css' %}">
+{% endblock %}
+
+{% block extrahead %}
+{{ block.super }}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js" defer></script>
+{% endblock %}
+
+{% block content %}
+<section class="ta-dashboard" aria-label="TaxAdvisor product dashboard">
+  <div class="ta-dashboard-heading">
+    <div>
+      <p class="ta-eyebrow">TaxAdvisor control center</p>
+      <h1>Product configuration at a glance</h1>
+      <p>Review plans, pricing, and feature coverage from one place.</p>
+    </div>
+    <a class="ta-dashboard-action" href="{% url 'admin:products_product_changelist' %}">Manage products</a>
+  </div>
+
+  <div class="ta-stat-grid">
+    {% for stat in dashboard_stats %}
+      <article class="ta-stat-card">
+        <span>{{ stat.label }}</span>
+        <strong>{{ stat.value }}</strong>
+        <small>{{ stat.detail }}</small>
+      </article>
+    {% endfor %}
+  </div>
+
+  <article class="ta-chart-card">
+    <div>
+      <p class="ta-eyebrow">Pricing overview</p>
+      <h2>Product price comparison</h2>
+      <p>CAD pricing across all configured plans.</p>
+    </div>
+    <div class="ta-chart-wrap"><canvas id="product-price-chart" aria-label="Product prices in Canadian dollars"></canvas></div>
+  </article>
+</section>
+
+{{ product_chart_labels|json_script:"product-chart-labels" }}
+{{ product_chart_prices|json_script:"product-chart-prices" }}
+
+{{ block.super }}
+{% endblock %}
+
+{% block footer %}
+{{ block.super }}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var canvas = document.getElementById('product-price-chart');
+    if (!canvas || !window.Chart) return;
+
+    var labels = JSON.parse(document.getElementById('product-chart-labels').textContent);
+    var prices = JSON.parse(document.getElementById('product-chart-prices').textContent);
+    new Chart(canvas, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Price (CAD)',
+          data: prices,
+          backgroundColor: '#0b3d78',
+          borderRadius: 7,
+          borderSkipped: false,
+        }],
+      },
+      options: {
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { grid: { display: false }, ticks: { color: '#475569', font: { weight: '600' } } },
+          y: { beginAtZero: true, grid: { color: '#e2e8f0' }, ticks: { color: '#64748b', callback: function(value) { return 'CAD $' + value; } } },
+        },
+      },
+    });
+  });
+</script>
+{% endblock %}

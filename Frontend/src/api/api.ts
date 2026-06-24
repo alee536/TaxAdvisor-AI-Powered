@@ -80,5 +80,17 @@ export const getProducts = (): Promise<Product[]> =>
 export const postRecommend = (data: RecommendRequest): Promise<RecommendResponse> =>
   apiClient.post<RecommendResponse>('/recommend/', data).then((r) => r.data);
 
-export const postAssistant = (data: AssistantRequest): Promise<AssistantResponse> =>
-  apiClient.post<AssistantResponse>('/assistant/', data).then((r) => r.data);
+export async function postAssistant(data: AssistantRequest): Promise<AssistantResponse> {
+  const response = await fetch('/api/assistant/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'same-origin',
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Assistant request failed with status ${response.status}.`);
+  }
+
+  return response.json() as Promise<AssistantResponse>;
+}

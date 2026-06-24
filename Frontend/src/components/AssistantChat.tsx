@@ -22,6 +22,16 @@ const SAMPLE_QUESTIONS = [
 const isSingleAcknowledgement = (message: string) =>
   /^(?:ok|oky|okay)$/.test(message.trim().toLowerCase().replace(/[.!?]+$/, ''));
 
+async function requestAssistantWithRetry(question: string, conversationContext?: 'awaiting_product_topic') {
+  try {
+    return await postAssistant({ question, conversationContext });
+  } catch {
+    // Django briefly restarts while backend files change in development.
+    await new Promise((resolve) => window.setTimeout(resolve, 400));
+    return postAssistant({ question, conversationContext });
+  }
+}
+
 export default function AssistantChat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
@@ -45,7 +55,7 @@ export default function AssistantChat() {
     setLoading(true);
 
     try {
-      const response = await postAssistant({ question, conversationContext });
+      const response = await requestAssistantWithRetry(question, conversationContext);
       const assistantMsg: Message = {
         id: nextId.current++,
         role: 'assistant',
@@ -54,11 +64,13 @@ export default function AssistantChat() {
       };
       setMessages((prev) => [...prev, assistantMsg]);
       setAwaitingProductTopic(isAcknowledgement);
-    } catch {
+    } catch (error) {
+      console.error('Assistant request failed:', error);
+      const detail = error instanceof Error ? error.message : 'Unexpected browser request error.';
       const errorMsg: Message = {
         id: nextId.current++,
         role: 'assistant',
-        content: 'Sorry, something went wrong. Please check that the backend server is running and try again.',
+        content: `Assistant request failed: ${detail} Please try again.`,
         error: true,
       };
       setMessages((prev) => [...prev, errorMsg]);

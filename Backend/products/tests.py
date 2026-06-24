@@ -1,6 +1,7 @@
+from django.contrib.auth import get_user_model
 from django.test import SimpleTestCase
 from rest_framework import status
-from rest_framework.test import APITestCase
+from rest_framework.test import APIClient, APITestCase
 
 from .recommendation_engine import get_recommendation
 
@@ -150,3 +151,17 @@ class AssistantApiSafetyTests(APITestCase):
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertIn('error', response.data)
+
+    def test_assistant_works_with_an_authenticated_admin_session(self):
+        user = get_user_model().objects.create_user('admin-session', password='test-password')
+        csrf_enforced_client = APIClient(enforce_csrf_checks=True)
+        csrf_enforced_client.force_login(user)
+
+        response = csrf_enforced_client.post(
+            self.endpoint,
+            {'question': 'Can you guarantee I will get a refund?'},
+            format='json',
+        )
+
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn('guarantee', response.data['answer'].lower())
