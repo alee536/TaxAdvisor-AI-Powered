@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import darkBackgroundLogo from '../../assets/logo for dark bg.png';
 
 const NAV_LINKS = [
   { to: '/', label: 'Home' },
@@ -14,21 +15,14 @@ export default function Navbar() {
   const location = useLocation();
 
   return (
-    <nav style={{ backgroundColor: '#0f172a', boxShadow: '0 1px 3px rgba(0,0,0,0.3)' }}>
+    <nav style={{ backgroundColor: '#061a35', boxShadow: '0 1px 3px rgba(0,0,0,0.3)' }}>
       <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '4rem' }}>
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none' }}>
-          <span style={{
-            backgroundColor: '#1e40af',
-            color: '#fff',
-            width: '2rem',
-            height: '2rem',
-            borderRadius: '0.375rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontWeight: 800,
-            fontSize: '0.9rem',
-          }}>T</span>
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', textDecoration: 'none' }}>
+          <img
+            src={darkBackgroundLogo}
+            alt="TaxAdvisor"
+            style={{ width: '3.25rem', height: '2.75rem', objectFit: 'contain' }}
+          />
           <span style={{ color: '#ffffff', fontWeight: 700, fontSize: '1.1rem', letterSpacing: '-0.01em' }}>
             TaxAdvisor
           </span>
@@ -91,7 +85,7 @@ export default function Navbar() {
       </div>
 
       {open && (
-        <div style={{ backgroundColor: '#1e293b', borderTop: '1px solid #334155', padding: '1rem' }}>
+        <div style={{ backgroundColor: '#0a254a', borderTop: '1px solid #163b67', padding: '1rem' }}>
           {NAV_LINKS.map((link) => (
             <Link
               key={link.to}

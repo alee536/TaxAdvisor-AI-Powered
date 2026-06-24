@@ -23,8 +23,8 @@ An AI-assisted web application that helps users find the right tax software prod
 | `/products` | Products page | Lists all products with search and sorting. |
 | `/compare` | Product comparison page | Compares product prices and supported features side by side. |
 | `/recommend` | Recommendation wizard | Collects questionnaire answers and displays a rule-based recommendation. |
-| `/assistant` | AI assistant | Provides simulated, product-selection guidance with safety disclaimers. |
-| `/admin/` | Django Admin | Protected staff-only product management interface. |
+| `/assistant` | AI assistant | Provides rule-grounded product guidance with safety disclaimers and optional Gemini wording. |
+| `/admin/` | Django Admin | Protected staff-only product configuration interface with feature summaries and JSON export. |
 
 ---
 
@@ -127,6 +127,9 @@ python manage.py seed_products
 
 # (Optional) Create a Django Admin superuser
 python manage.py createsuperuser
+
+# Run the automated backend tests
+python manage.py test
 
 # Start the Django development server
 python manage.py runserver
@@ -293,11 +296,13 @@ The key stays on the backend and is never sent to the React application. Without
 
 ## Administration
 
-The navbar's **Admin** link opens Django Admin at `/admin/`. Django requires authentication before granting access, and staff users can create, edit, search, filter, and delete product configuration records.
+The navbar's **Admin** link opens Django Admin at `/admin/`. Django requires authentication before granting access, and staff users can create, edit, search, filter, and delete product configuration records. Each product edit view clearly summarizes its supported and unsupported features. Staff can also select products in the list view and use **Export selected product configuration as JSON**.
 
 ---
 
 ## Manual Verification Table
+
+Start the app with `pnpm run dev`, open the frontend URL printed by Vite, and complete the following flows. Backend rule and validation scenarios are also covered by `python manage.py test`.
 
 | Scenario                                    | Expected Result          | Status |
 |---------------------------------------------|--------------------------|--------|
@@ -312,6 +317,19 @@ The navbar's **Admin** link opens Django Admin at `/admin/`. Django requires aut
 | Incorporated company with revenue           | Business Corporate       | Pass   |
 | Incorporated company with no revenue        | Nil Corporate Return     | Pass   |
 | AI asked about refund guarantee             | Safe disclaimer response | Pass   |
+
+Additional UI checks performed: each route loads through the navbar, the wizard blocks incomplete steps and shows the conditional company-revenue step, the assistant keeps unrelated questions inside product-guidance scope, and `/admin/` requires Django authentication.
+
+---
+
+## Automated Tests
+
+The Django suite covers recommendation-rule priority, API payload validation, and assistant safety/context validation.
+
+```bash
+cd Backend
+python manage.py test
+```
 
 ---
 
@@ -329,7 +347,6 @@ The following features were scoped out to prioritize core correctness and local 
 
 - PDF export of the recommendation result
 - Multilingual support (French/English for the Canadian audience)
-- Automated test suite (unit tests for recommendation engine, integration tests for API endpoints)
 - CI/CD workflow for automated linting and testing on push
 - PostgreSQL migration for production-grade persistence
 
@@ -337,4 +354,4 @@ The following features were scoped out to prioritize core correctness and local 
 
 ## Use of AI During Development
 
-AI tools were used for initial scaffolding, UI structure suggestions, and implementation support. The product rules, recommendation logic, validation flows, AI safety behavior, manual verification, code cleanup, and final documentation were reviewed and verified manually.
+OpenAI Codex was used for implementation assistance, including initial scaffolding, UI structure suggestions, documentation drafts, test-case ideas, and the optional Gemini integration. The product catalogue, recommendation priorities, API validation rules, Django models, safety boundaries, and final UI decisions were written or reviewed manually against the assignment brief. All generated changes were checked locally with Django system checks, backend tests, and a production frontend build before being kept.

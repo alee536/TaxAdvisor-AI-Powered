@@ -1,24 +1,18 @@
 import { Link } from 'react-router-dom';
+import darkBackgroundLogo from '../../assets/logo for dark bg.png';
 
 export default function Footer() {
   return (
-    <footer style={{ backgroundColor: '#0f172a', color: '#94a3b8', paddingTop: '3rem', paddingBottom: '2rem', marginTop: 'auto' }}>
+    <footer style={{ backgroundColor: '#061a35', color: '#94a3b8', paddingTop: '3rem', paddingBottom: '2rem', marginTop: 'auto' }}>
       <div className="container">
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '2rem', marginBottom: '2.5rem' }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
-              <span style={{
-                backgroundColor: '#1e40af',
-                color: '#fff',
-                width: '1.75rem',
-                height: '1.75rem',
-                borderRadius: '0.25rem',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                fontWeight: 800,
-                fontSize: '0.85rem',
-              }}>T</span>
+              <img
+                src={darkBackgroundLogo}
+                alt="TaxAdvisor"
+                style={{ width: '3rem', height: '2.5rem', objectFit: 'contain' }}
+              />
               <span style={{ color: '#f1f5f9', fontWeight: 700, fontSize: '1rem' }}>TaxAdvisor</span>
             </div>
             <p style={{ fontSize: '0.875rem', lineHeight: '1.6', color: '#64748b', maxWidth: '240px' }}>
@@ -42,13 +36,16 @@ export default function Footer() {
           <div>
             <h3 style={{ color: '#f1f5f9', fontWeight: 600, fontSize: '0.875rem', marginBottom: '1rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Support</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              {[['/assistant', 'AI Assistant'], ['/admin/products', 'Admin Config']].map(([to, label]) => (
+              {[['/assistant', 'AI Assistant']].map(([to, label]) => (
                 <Link key={to} to={to} style={{ color: '#64748b', textDecoration: 'none', fontSize: '0.875rem', transition: 'color 0.15s' }}
                   onMouseEnter={(e) => (e.currentTarget.style.color = '#93c5fd')}
                   onMouseLeave={(e) => (e.currentTarget.style.color = '#64748b')}>
                   {label}
                 </Link>
               ))}
+              <a href="/admin/" style={{ color: '#64748b', textDecoration: 'none', fontSize: '0.875rem', transition: 'color 0.15s' }}>
+                Django Admin
+              </a>
             </div>
           </div>
 
