@@ -13,6 +13,9 @@ const NAV_LINKS = [
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const location = useLocation();
+  const adminUrl = import.meta.env.VITE_API_BASE_URL
+    ? `${import.meta.env.VITE_API_BASE_URL.replace(/\/api\/?$/, '')}/admin/`
+    : '/admin/';
 
   return (
     <nav style={{ backgroundColor: '#061a35', boxShadow: '0 1px 3px rgba(0,0,0,0.3)' }}>
@@ -47,7 +50,7 @@ export default function Navbar() {
               {link.label}
             </Link>
           ))}
-          <a href="/admin/" style={{
+          <a href={adminUrl} style={{
             marginLeft: '0.5rem',
             color: '#94a3b8',
             textDecoration: 'none',
@@ -106,7 +109,7 @@ export default function Navbar() {
             </Link>
           ))}
           <a
-            href="/admin/"
+            href={adminUrl}
             onClick={() => setOpen(false)}
             style={{ display: 'block', color: '#94a3b8', textDecoration: 'none', padding: '0.625rem 1rem', fontSize: '0.875rem' }}
           >

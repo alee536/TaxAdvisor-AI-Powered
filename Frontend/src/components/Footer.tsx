@@ -2,6 +2,10 @@ import { Link } from 'react-router-dom';
 import darkBackgroundLogo from '../../assets/logo for dark bg.png';
 
 export default function Footer() {
+  const adminUrl = import.meta.env.VITE_API_BASE_URL
+    ? `${import.meta.env.VITE_API_BASE_URL.replace(/\/api\/?$/, '')}/admin/`
+    : '/admin/';
+
   return (
     <footer style={{ backgroundColor: '#061a35', color: '#94a3b8', paddingTop: '3rem', paddingBottom: '2rem', marginTop: 'auto' }}>
       <div className="container">
@@ -43,7 +47,7 @@ export default function Footer() {
                   {label}
                 </Link>
               ))}
-              <a href="/admin/" style={{ color: '#64748b', textDecoration: 'none', fontSize: '0.875rem', transition: 'color 0.15s' }}>
+              <a href={adminUrl} style={{ color: '#64748b', textDecoration: 'none', fontSize: '0.875rem', transition: 'color 0.15s' }}>
                 Django Admin
               </a>
             </div>
