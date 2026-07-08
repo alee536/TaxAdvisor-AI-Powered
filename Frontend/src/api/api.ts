@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+const apiBaseURL = import.meta.env.VITE_API_BASE_URL || '/api';
+
 const apiClient = axios.create({
-  baseURL: '/api',
+  baseURL: apiBaseURL,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -81,7 +83,7 @@ export const postRecommend = (data: RecommendRequest): Promise<RecommendResponse
   apiClient.post<RecommendResponse>('/recommend/', data).then((r) => r.data);
 
 export async function postAssistant(data: AssistantRequest): Promise<AssistantResponse> {
-  const response = await fetch('/api/assistant/', {
+  const response = await fetch(`${apiBaseURL}/assistant/`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     credentials: 'same-origin',

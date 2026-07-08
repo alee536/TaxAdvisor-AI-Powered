@@ -1,0 +1,6 @@
+{
+  "installCommand": "pnpm install",
+  "buildCommand": "pnpm --filter @workspace/tax-app build",
+  "outputDirectory": "Frontend/dist/public",
+  "framework": "vite"
+}
