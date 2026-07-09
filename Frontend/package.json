@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "axios": "^1.7.9",
+    "framer-motion": "catalog:",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^6.28.0"
@@ -62,8 +63,8 @@
     "react-resizable-panels": "^2.1.9",
     "recharts": "^2.15.4",
     "sonner": "^2.0.7",
-    "tailwindcss": "^4.1.14",
     "tailwind-merge": "catalog:",
+    "tailwindcss": "^4.1.14",
     "typescript": "^5.9.0",
     "vaul": "^1.1.2",
     "vite": "^7.3.2"
