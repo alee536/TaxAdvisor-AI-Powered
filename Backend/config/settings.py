@@ -27,6 +27,7 @@ CSRF_TRUSTED_ORIGINS = os.environ.get(
 ).split(',')
 
 INSTALLED_APPS = [
+    'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -37,6 +38,34 @@ INSTALLED_APPS = [
     'corsheaders',
     'products',
 ]
+
+JAZZMIN_SETTINGS = {
+    'site_title': 'TaxAdvisor Admin',
+    'site_header': 'TaxAdvisor Admin',
+    'site_brand': 'TaxAdvisor',
+    'site_logo': 'products/taxadvisor-logo-dark.png',
+    'welcome_sign': 'TaxAdvisor Admin',
+    'copyright': 'TaxAdvisor',
+    'site_logo_classes': 'taxadvisor-admin-logo',
+    'show_sidebar': True,
+    'navigation_expanded': True,
+    'icons': {
+        'auth.user': 'fas fa-user',
+        'auth.group': 'fas fa-users',
+        'products.product': 'fas fa-receipt',
+    },
+}
+
+JAZZMIN_UI_TWEAKS = {
+    'theme': 'darkly',
+    'brand_colour': 'navbar-dark',
+    'accent': 'accent-emerald',
+    'navbar': 'navbar-dark',
+    'sidebar': 'sidebar-dark-primary',
+    'sidebar_fixed': True,
+    'sidebar_nav_small_text': True,
+    'sidebar_disable_expand': False,
+}
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',

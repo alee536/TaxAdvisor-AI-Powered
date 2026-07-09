@@ -6,12 +6,63 @@
 {% block extrastyle %}
 {{ block.super }}
 <link rel="stylesheet" href="{% static 'products/admin.css' %}">
+<style>
+  #content-main form,
+  #content-main form *,
+  #content form,
+  #content form * {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+  }
+
+  #content-main form label,
+  #content-main form legend,
+  #content-main form p,
+  #content-main form li,
+  #content-main form span,
+  #content-main form strong,
+  #content-main form .help,
+  #content-main form .helptext,
+  #content-main form .description,
+  #content-main form .readonly,
+  #content-main form .fieldBox,
+  #content-main form .form-row,
+  #content-main form .form-row > div,
+  #content-main form .form-row > label,
+  #content-main form .aligned label,
+  #content-main form .vCheckboxLabel,
+  #content-main form .required label,
+  #content-main form label.required {
+    color: #0f172a !important;
+    background-color: #ffffff !important;
+  }
+
+  #content-main form input,
+  #content-main form textarea,
+  #content-main form select,
+  #content-main form .vTextField,
+  #content-main form .vLargeTextField,
+  #content-main form .form-control,
+  #content-main form .select2-selection,
+  #content-main form .select2-search__field {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    -webkit-text-fill-color: #0f172a !important;
+    caret-color: #0f172a !important;
+  }
+
+  #content-main form input::placeholder,
+  #content-main form textarea::placeholder {
+    color: #64748b !important;
+    opacity: 1 !important;
+  }
+</style>
 {% endblock %}
 
 {% block branding %}
 <div id="site-name" class="taxadvisor-brand">
   <a href="{% url 'admin:index' %}" aria-label="TaxAdvisor Admin home">
-    <span class="taxadvisor-mark">TA</span>
+    <img class="taxadvisor-mark" src="{% static 'products/taxadvisor-logo-dark.png' %}" alt="" aria-hidden="true">
     <span>
       <strong>TaxAdvisor</strong>
       <small>Product Management Console</small>
