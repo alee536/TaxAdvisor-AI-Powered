@@ -1,4 +1,5 @@
 import type { Product } from '../api/api';
+import { motion, useReducedMotion } from 'framer-motion';
 
 interface Props {
   products: Product[];
@@ -26,7 +27,23 @@ const COMPARISON_ROWS: { key: keyof Product; label: string }[] = [
   { key: 'supports_nil_corporate_return', label: 'Nil Corporate Return' },
 ];
 
-function Cell({ value, isPrice }: { value: boolean | string; isPrice?: boolean }) {
+function CheckIcon({ delay, reduceMotion }: { delay: number; reduceMotion: boolean }) {
+  return (
+    <motion.div
+      initial={reduceMotion ? false : { scale: 0 }}
+      whileInView={reduceMotion ? undefined : { scale: 1 }}
+      viewport={{ once: true, amount: 0.5 }}
+      transition={{ duration: reduceMotion ? 0 : 0.24, delay }}
+      style={{ display: 'inline-flex' }}
+    >
+      <svg width="18" height="18" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+        <path d="M16.5 5.5L8.25 13.75L3.5 9" stroke="currentColor" strokeWidth="2.25" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </motion.div>
+  );
+}
+
+function Cell({ value, isPrice, rowIndex, reduceMotion }: { value: boolean | string; isPrice?: boolean; rowIndex: number; reduceMotion: boolean }) {
   if (isPrice) {
     const p = parseFloat(value as string);
     return (
@@ -48,9 +65,12 @@ function Cell({ value, isPrice }: { value: boolean | string; isPrice?: boolean }
       padding: '0.75rem 1rem',
       textAlign: 'center',
       borderBottom: '1px solid #f1f5f9',
-    }}>
+        backgroundColor: 'transparent',
+      }}>
       {value ? (
-        <span style={{ color: '#16a34a', fontSize: '1.1rem', fontWeight: 700 }}>✓</span>
+        <span style={{ color: 'var(--color-accent)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center' }}>
+          <CheckIcon delay={rowIndex * 0.03} reduceMotion={reduceMotion} />
+        </span>
       ) : (
         <span style={{ color: '#d1d5db', fontSize: '1.1rem' }}>—</span>
       )}
@@ -59,6 +79,8 @@ function Cell({ value, isPrice }: { value: boolean | string; isPrice?: boolean }
 }
 
 export default function ComparisonTable({ products }: Props) {
+  const reduceMotion = useReducedMotion();
+
   if (products.length === 0) return null;
 
   return (
@@ -99,11 +121,11 @@ export default function ComparisonTable({ products }: Props) {
         </thead>
         <tbody>
           {COMPARISON_ROWS.map((row, idx) => (
-            <tr key={row.key} style={{ backgroundColor: idx % 2 === 0 ? '#ffffff' : '#f8fafc' }}>
+            <tr key={row.key} className="transition-colors duration-150 hover:bg-slate-50" style={{ backgroundColor: idx % 2 === 0 ? '#ffffff' : '#f8fafc' }}>
               <td style={{
                 padding: '0.75rem 1rem',
                 fontWeight: 500,
-                color: '#374151',
+                color: 'var(--color-heading)',
                 fontSize: '0.875rem',
                 borderBottom: '1px solid #f1f5f9',
                 borderRight: '2px solid #e2e8f0',
@@ -118,6 +140,8 @@ export default function ComparisonTable({ products }: Props) {
                   key={p.id}
                   value={p[row.key] as boolean | string}
                   isPrice={row.key === 'price'}
+                  rowIndex={idx}
+                  reduceMotion={reduceMotion}
                 />
               ))}
             </tr>

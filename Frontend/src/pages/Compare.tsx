@@ -37,8 +37,8 @@ export default function Compare() {
     <div>
       <div className="page-hero" style={{ padding: '3.5rem 0 3rem' }}>
         <div className="container">
-          <h1 style={{ fontSize: '2.25rem', fontWeight: 800, color: '#fff', marginBottom: '0.5rem' }}>Compare Products</h1>
-          <p style={{ color: '#bfdbfe', fontSize: '1.05rem' }}>Side-by-side feature comparison across all products</p>
+          <h1 className="font-heading" style={{ fontSize: '2.25rem', fontWeight: 800, color: '#fff', marginBottom: '0.5rem' }}>Compare Products</h1>
+          <p style={{ color: '#d1fae5', fontSize: '1.05rem' }}>Side-by-side feature comparison across all products</p>
         </div>
       </div>
 
@@ -71,13 +71,14 @@ export default function Compare() {
                     style={{
                       padding: '0.4rem 0.875rem',
                       borderRadius: '9999px',
-                      border: `2px solid ${selected.has(p.id) ? '#1e40af' : '#e2e8f0'}`,
-                      backgroundColor: selected.has(p.id) ? '#eff6ff' : '#fff',
-                      color: selected.has(p.id) ? '#1e40af' : '#64748b',
-                      fontWeight: selected.has(p.id) ? 600 : 400,
+                      border: `1px solid ${selected.has(p.id) ? 'var(--color-accent)' : '#d1d5db'}`,
+                      backgroundColor: selected.has(p.id) ? 'rgba(16, 185, 129, 0.08)' : '#fff',
+                      color: selected.has(p.id) ? 'var(--color-accent-hover)' : 'var(--color-body-text)',
+                      fontWeight: selected.has(p.id) ? 600 : 500,
                       fontSize: '0.85rem',
                       cursor: 'pointer',
-                      transition: 'all 0.15s',
+                      transition: 'all 0.2s ease',
+                      boxShadow: selected.has(p.id) ? '0 8px 18px rgba(16, 185, 129, 0.12)' : 'none',
                     }}
                   >
                     {p.name}

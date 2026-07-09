@@ -5,15 +5,15 @@ export default function Assistant() {
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: 'calc(100vh - 64px)' }}>
       <div className="page-hero" style={{ padding: '3.5rem 0 3rem' }}>
         <div className="container">
-          <h1 style={{ fontSize: '2.25rem', fontWeight: 800, color: '#fff', marginBottom: '0.5rem' }}>AI Assistant</h1>
-          <p style={{ color: '#bfdbfe', fontSize: '1.05rem' }}>
+          <h1 className="font-heading" style={{ fontSize: '2.25rem', fontWeight: 800, color: '#fff', marginBottom: '0.5rem' }}>AI Assistant</h1>
+          <p style={{ color: '#d1fae5', fontSize: '1.05rem' }}>
             Ask questions about tax products in natural language
           </p>
           <div style={{ marginTop: '1rem' }}>
             <span style={{
               display: 'inline-block',
-              backgroundColor: 'rgba(255,255,255,0.15)',
-              color: '#fde68a',
+              backgroundColor: 'rgba(255,255,255,0.12)',
+              color: '#d1fae5',
               fontSize: '0.78rem',
               padding: '0.25rem 0.75rem',
               borderRadius: '9999px',
@@ -31,7 +31,7 @@ export default function Assistant() {
             backgroundColor: '#fff',
             borderRadius: '0.75rem',
             border: '1px solid #e2e8f0',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
+            boxShadow: '0 10px 30px rgba(15, 23, 42, 0.08)',
             overflow: 'hidden',
             minHeight: '560px',
             display: 'flex',
@@ -48,7 +48,7 @@ export default function Assistant() {
                 width: '0.625rem',
                 height: '0.625rem',
                 borderRadius: '50%',
-                backgroundColor: '#16a34a',
+                backgroundColor: 'var(--color-accent)',
               }} />
               <span style={{ fontSize: '0.875rem', fontWeight: 600, color: '#374151' }}>TaxAdvisor Assistant</span>
               <span style={{ fontSize: '0.75rem', color: '#94a3b8' }}>Product guidance only — not tax advice</span>
@@ -58,12 +58,12 @@ export default function Assistant() {
 
           <div style={{
             marginTop: '1.5rem',
-            backgroundColor: '#fffbeb',
-            border: '1px solid #fde68a',
+            backgroundColor: '#f8fafc',
+            border: '1px solid #e2e8f0',
             borderRadius: '0.625rem',
             padding: '1rem 1.25rem',
           }}>
-            <p style={{ fontSize: '0.8rem', color: '#78350f', margin: 0, lineHeight: 1.5 }}>
+            <p style={{ fontSize: '0.8rem', color: '#475569', margin: 0, lineHeight: 1.5 }}>
               <strong>Disclaimer:</strong> The AI assistant provides general product selection guidance only. It is not a substitute for professional tax, legal, financial, or accounting advice. Please consult a qualified tax professional for personalized guidance.
             </p>
           </div>

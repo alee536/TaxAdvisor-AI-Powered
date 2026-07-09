@@ -17,21 +17,21 @@ export default function ResultCard({ result, onRestart }: Props) {
     <div className="fade-in">
       <div style={{
         backgroundColor: '#fff',
-        border: '2px solid #1e40af',
+        border: '1px solid var(--color-card-border-hover)',
         borderRadius: '1rem',
         overflow: 'hidden',
-        boxShadow: '0 4px 16px rgba(30, 64, 175, 0.12)',
+        boxShadow: '0 10px 28px rgba(15, 23, 42, 0.08)',
       }}>
         <div style={{
-          background: 'linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%)',
+          background: 'linear-gradient(135deg, var(--color-hero-gradient-start) 0%, var(--color-hero-gradient-end) 100%)',
           padding: '2rem',
           color: '#fff',
           textAlign: 'center',
         }}>
-          <div style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#93c5fd', marginBottom: '0.5rem' }}>
+          <div style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#d1fae5', marginBottom: '0.5rem' }}>
             Recommended Product
           </div>
-          <h2 style={{ fontSize: '2rem', fontWeight: 800, margin: '0 0 0.5rem', color: '#fff' }}>
+          <h2 className="font-heading" style={{ fontSize: '2rem', fontWeight: 800, margin: '0 0 0.5rem', color: '#fff' }}>
             {result.recommendedProductName}
           </h2>
           <div style={{ fontSize: '2.5rem', fontWeight: 800, color: '#fff' }}>
@@ -77,7 +77,7 @@ export default function ResultCard({ result, onRestart }: Props) {
           )}
 
           <div style={{ marginBottom: '1.5rem' }}>
-            <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '0.75rem', color: '#0f172a' }}>Why this product?</h3>
+            <h3 className="font-heading" style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '0.75rem', color: '#0f172a' }}>Why this product?</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               {result.reasons.map((r, i) => (
                 <div key={i} style={{ display: 'flex', gap: '0.625rem', alignItems: 'flex-start' }}>
@@ -90,7 +90,7 @@ export default function ResultCard({ result, onRestart }: Props) {
 
           {result.matchedInputs.length > 0 && (
             <div style={{ marginBottom: '1.5rem' }}>
-              <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '0.75rem', color: '#0f172a' }}>Based on your inputs</h3>
+              <h3 className="font-heading" style={{ fontSize: '1rem', fontWeight: 700, marginBottom: '0.75rem', color: '#0f172a' }}>Based on your inputs</h3>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
                 {result.matchedInputs.map((input, i) => (
                   <span key={i} className="badge badge-blue">{input}</span>

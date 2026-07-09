@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { getProducts, type Product } from '../api/api';
 import ProductCard from '../components/ProductCard';
+import { ChevronDown } from 'lucide-react';
 
 type SortKey = 'price_asc' | 'price_desc' | 'name';
 
@@ -38,8 +39,8 @@ export default function Products() {
     <div>
       <div className="page-hero" style={{ padding: '3.5rem 0 3rem' }}>
         <div className="container">
-          <h1 style={{ fontSize: '2.25rem', fontWeight: 800, color: '#fff', marginBottom: '0.5rem' }}>Tax Software Products</h1>
-          <p style={{ color: '#bfdbfe', fontSize: '1.05rem' }}>
+          <h1 className="font-heading" style={{ fontSize: '2.25rem', fontWeight: 800, color: '#fff', marginBottom: '0.5rem' }}>Tax Software Products</h1>
+          <p style={{ color: '#d1fae5', fontSize: '1.05rem' }}>
             {products.length > 0 ? `${products.length} products available` : 'All products in one place'}
           </p>
         </div>
@@ -55,18 +56,21 @@ export default function Products() {
             onChange={(e) => setSearch(e.target.value)}
             style={{ maxWidth: '320px' }}
           />
-          <select
-            className="input-field"
-            value={sort}
-            onChange={(e) => setSort(e.target.value as SortKey)}
-            style={{ maxWidth: '200px' }}
-          >
-            <option value="price_asc">Price: Low to High</option>
-            <option value="price_desc">Price: High to Low</option>
-            <option value="name">Name: A-Z</option>
-          </select>
+          <div style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', width: '100%', maxWidth: '220px' }}>
+            <select
+              className="input-field select-field"
+              value={sort}
+              onChange={(e) => setSort(e.target.value as SortKey)}
+              style={{ width: '100%', paddingRight: '2.75rem' }}
+            >
+              <option value="price_asc">Price: Low to High</option>
+              <option value="price_desc">Price: High to Low</option>
+              <option value="name">Name: A-Z</option>
+            </select>
+            <ChevronDown size={16} color="#0f172a" style={{ position: 'absolute', right: '0.9rem', pointerEvents: 'none' }} />
+          </div>
           {search && (
-            <span style={{ color: '#64748b', fontSize: '0.875rem' }}>
+            <span style={{ color: 'var(--color-body-text)', fontSize: '0.875rem' }}>
               {filtered.length} result{filtered.length !== 1 ? 's' : ''} for "{search}"
             </span>
           )}
