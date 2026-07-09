@@ -18,7 +18,7 @@ export default function Navbar() {
     : '/admin/';
 
   return (
-    <nav style={{ backgroundColor: '#061a35', boxShadow: '0 1px 3px rgba(0,0,0,0.3)' }}>
+    <nav className="site-navbar">
       <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '4rem' }}>
         <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', textDecoration: 'none' }}>
           <img
@@ -26,7 +26,7 @@ export default function Navbar() {
             alt="TaxAdvisor"
             style={{ width: '3.25rem', height: '2.75rem', objectFit: 'contain' }}
           />
-          <span style={{ color: '#ffffff', fontWeight: 700, fontSize: '1.1rem', letterSpacing: '-0.01em' }}>
+          <span style={{ color: 'var(--navbar-brand-text)', fontWeight: 700, fontSize: '1.1rem', letterSpacing: '-0.01em' }}>
             TaxAdvisor
           </span>
         </Link>
@@ -37,13 +37,13 @@ export default function Navbar() {
               key={link.to}
               to={link.to}
               style={{
-                color: location.pathname === link.to ? '#93c5fd' : '#cbd5e1',
+                color: location.pathname === link.to ? 'var(--navbar-link-active)' : 'var(--navbar-link-text)',
                 textDecoration: 'none',
                 padding: '0.375rem 0.875rem',
                 borderRadius: '0.375rem',
                 fontSize: '0.9rem',
                 fontWeight: location.pathname === link.to ? 600 : 400,
-                backgroundColor: location.pathname === link.to ? 'rgba(255,255,255,0.08)' : 'transparent',
+                backgroundColor: location.pathname === link.to ? 'rgba(16, 185, 129, 0.12)' : 'transparent',
                 transition: 'all 0.15s',
               }}
             >
@@ -52,12 +52,12 @@ export default function Navbar() {
           ))}
           <a href={adminUrl} style={{
             marginLeft: '0.5rem',
-            color: '#94a3b8',
+            color: 'var(--navbar-admin-text)',
             textDecoration: 'none',
             padding: '0.375rem 0.75rem',
             borderRadius: '0.375rem',
             fontSize: '0.8rem',
-            border: '1px solid #334155',
+            border: '1px solid var(--navbar-admin-border)',
             transition: 'all 0.15s',
           }}>
             Admin
@@ -70,7 +70,7 @@ export default function Navbar() {
             display: 'none',
             background: 'none',
             border: 'none',
-            color: '#cbd5e1',
+            color: 'var(--navbar-link-text)',
             cursor: 'pointer',
             padding: '0.5rem',
           }}
@@ -88,7 +88,7 @@ export default function Navbar() {
       </div>
 
       {open && (
-        <div style={{ backgroundColor: '#0a254a', borderTop: '1px solid #163b67', padding: '1rem' }}>
+        <div className="site-mobile-menu" style={{ padding: '1rem' }}>
           {NAV_LINKS.map((link) => (
             <Link
               key={link.to}
@@ -96,12 +96,12 @@ export default function Navbar() {
               onClick={() => setOpen(false)}
               style={{
                 display: 'block',
-                color: location.pathname === link.to ? '#93c5fd' : '#cbd5e1',
+                color: location.pathname === link.to ? 'var(--navbar-link-active)' : 'var(--navbar-link-text)',
                 textDecoration: 'none',
                 padding: '0.625rem 1rem',
                 borderRadius: '0.375rem',
                 fontWeight: location.pathname === link.to ? 600 : 400,
-                backgroundColor: location.pathname === link.to ? 'rgba(255,255,255,0.06)' : 'transparent',
+                backgroundColor: location.pathname === link.to ? 'rgba(16, 185, 129, 0.12)' : 'transparent',
                 marginBottom: '0.25rem',
               }}
             >
@@ -111,7 +111,7 @@ export default function Navbar() {
           <a
             href={adminUrl}
             onClick={() => setOpen(false)}
-            style={{ display: 'block', color: '#94a3b8', textDecoration: 'none', padding: '0.625rem 1rem', fontSize: '0.875rem' }}
+            style={{ display: 'block', color: 'var(--navbar-admin-text)', textDecoration: 'none', padding: '0.625rem 1rem', fontSize: '0.875rem' }}
           >
             Admin
           </a>
