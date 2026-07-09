@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { postRecommend, type RecommendResponse } from '../api/api';
 import ResultCard from './ResultCard';
+import { Skeleton } from './ui/skeleton';
 
 type Step = 1 | 2 | 3 | 4 | 5 | 'result';
 
@@ -48,56 +49,55 @@ function ProgressBar({ current, total }: { current: number; total: number }) {
     <div style={{ marginBottom: '2rem' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
         <span style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 500 }}>Step {current} of {total}</span>
-        <span style={{ fontSize: '0.8rem', color: '#1e40af', fontWeight: 600 }}>{pct}% complete</span>
+        <span style={{ fontSize: '0.8rem', color: 'var(--color-accent)', fontWeight: 600 }}>{pct}% complete</span>
       </div>
-      <div style={{ height: '0.375rem', backgroundColor: '#e2e8f0', borderRadius: '9999px', overflow: 'hidden' }}>
-        <div style={{
-          height: '100%',
-          width: `${pct}%`,
-          backgroundColor: '#1e40af',
-          borderRadius: '9999px',
-          transition: 'width 0.3s ease',
-        }} />
+      <div className="h-2 w-full rounded-full bg-slate-200">
+        <div
+          className="h-2 rounded-full bg-emerald-500 transition-all duration-500 ease-out"
+          style={{ width: `${(current / total) * 100}%` }}
+        />
       </div>
     </div>
   );
 }
 
-function RadioOption({ value, label, selected, onChange }: { value: string; label: string; selected: boolean; onChange: () => void }) {
+function RadioOption({
+  name,
+  option,
+  selected,
+  onSelect,
+}: {
+  name: string;
+  option: { value: string; label: string };
+  selected: string;
+  onSelect: (value: string) => void;
+}) {
   return (
-    <label style={{
-      display: 'flex',
-      alignItems: 'center',
-      gap: '0.75rem',
-      padding: '0.875rem 1.125rem',
-      border: `2px solid ${selected ? '#1e40af' : '#e2e8f0'}`,
-      borderRadius: '0.625rem',
-      cursor: 'pointer',
-      backgroundColor: selected ? '#eff6ff' : '#fff',
-      transition: 'all 0.15s',
-    }}>
+    <label
+      className={`flex cursor-pointer items-center gap-3 rounded-xl border-2 p-4 transition-colors duration-150 ${
+        selected === option.value
+          ? "border-emerald-500 bg-emerald-50"
+          : "border-slate-200 bg-white hover:border-emerald-300"
+      }`}
+    >
+      <span
+        className={`flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border-2 transition-colors duration-150 ${
+          selected === option.value ? "border-emerald-500" : "border-slate-300"
+        }`}
+      >
+        {selected === option.value && (
+          <span className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
+        )}
+      </span>
       <input
         type="radio"
-        value={value}
-        checked={selected}
-        onChange={onChange}
-        style={{ display: 'none' }}
+        name={name}
+        value={option.value}
+        checked={selected === option.value}
+        onChange={() => onSelect(option.value)}
+        className="sr-only"
       />
-      <div style={{
-        width: '1.25rem',
-        height: '1.25rem',
-        borderRadius: '50%',
-        border: `2px solid ${selected ? '#1e40af' : '#cbd5e1'}`,
-        backgroundColor: selected ? '#1e40af' : '#fff',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flexShrink: 0,
-        transition: 'all 0.15s',
-      }}>
-        {selected && <div style={{ width: '0.45rem', height: '0.45rem', borderRadius: '50%', backgroundColor: '#fff' }} />}
-      </div>
-      <span style={{ fontSize: '0.9375rem', color: selected ? '#1e40af' : '#374151', fontWeight: selected ? 600 : 400 }}>{label}</span>
+      <span className="text-slate-800">{option.label}</span>
     </label>
   );
 }
@@ -109,10 +109,10 @@ function CheckboxOption({ value, label, checked, onChange }: { value: string; la
       alignItems: 'center',
       gap: '0.75rem',
       padding: '0.75rem 1rem',
-      border: `2px solid ${checked ? '#1e40af' : '#e2e8f0'}`,
+      border: `2px solid ${checked ? 'var(--color-accent)' : '#e2e8f0'}`,
       borderRadius: '0.625rem',
       cursor: 'pointer',
-      backgroundColor: checked ? '#eff6ff' : '#fff',
+      backgroundColor: checked ? 'rgba(16, 185, 129, 0.08)' : '#fff',
       transition: 'all 0.15s',
     }}>
       <input type="checkbox" value={value} checked={checked} onChange={onChange} style={{ display: 'none' }} />
@@ -120,8 +120,8 @@ function CheckboxOption({ value, label, checked, onChange }: { value: string; la
         width: '1.1rem',
         height: '1.1rem',
         borderRadius: '0.25rem',
-        border: `2px solid ${checked ? '#1e40af' : '#cbd5e1'}`,
-        backgroundColor: checked ? '#1e40af' : '#fff',
+        border: `2px solid ${checked ? 'var(--color-accent)' : '#cbd5e1'}`,
+        backgroundColor: checked ? 'var(--color-accent)' : '#fff',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -129,7 +129,7 @@ function CheckboxOption({ value, label, checked, onChange }: { value: string; la
       }}>
         {checked && <span style={{ color: '#fff', fontSize: '0.65rem', fontWeight: 900 }}>✓</span>}
       </div>
-      <span style={{ fontSize: '0.9rem', color: checked ? '#1e40af' : '#374151', fontWeight: checked ? 500 : 400 }}>{label}</span>
+      <span style={{ fontSize: '0.9rem', color: checked ? 'var(--color-accent-hover)' : '#374151', fontWeight: checked ? 500 : 400 }}>{label}</span>
     </label>
   );
 }
@@ -222,6 +222,27 @@ export default function RecommendationWizard() {
     return <ResultCard result={result} onRestart={restart} />;
   }
 
+  if (loading) {
+    return (
+      <div className="card" style={{ maxWidth: '640px', margin: '0 auto' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+          <Skeleton className="h-2 w-32" style={{ height: '0.5rem', width: '8rem' }} />
+          <Skeleton style={{ height: '0.9rem', width: '60%' }} />
+          <Skeleton style={{ height: '0.9rem', width: '85%' }} />
+          <div style={{ display: 'grid', gap: '0.75rem', marginTop: '0.5rem' }}>
+            <Skeleton style={{ height: '3.25rem', borderRadius: '0.75rem' }} />
+            <Skeleton style={{ height: '3.25rem', borderRadius: '0.75rem' }} />
+            <Skeleton style={{ height: '3.25rem', borderRadius: '0.75rem' }} />
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', gap: '1rem', marginTop: '1rem' }}>
+            <Skeleton style={{ height: '2.75rem', width: '6rem', borderRadius: '0.75rem' }} />
+            <Skeleton style={{ height: '2.75rem', width: '10rem', borderRadius: '0.75rem' }} />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const currentStep = step as number;
 
   return (
@@ -230,8 +251,8 @@ export default function RecommendationWizard() {
 
       {step === 1 && (
         <div className="fade-in">
-          <h2 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.5rem' }}>What are you filing for?</h2>
-          <p style={{ color: '#64748b', fontSize: '0.875rem', marginBottom: '1.5rem' }}>Select the option that best describes your filing situation.</p>
+          <h2 className="font-heading" style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.5rem' }}>What are you filing for?</h2>
+          <p style={{ color: 'var(--color-body-text)', fontSize: '0.875rem', marginBottom: '1.5rem' }}>Select the option that best describes your filing situation.</p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
             {[
               { value: 'personal', label: 'Personal return' },
@@ -240,10 +261,10 @@ export default function RecommendationWizard() {
             ].map((opt) => (
               <RadioOption
                 key={opt.value}
-                value={opt.value}
-                label={opt.label}
-                selected={state.filing_type === opt.value}
-                onChange={() => { setState((s) => ({ ...s, filing_type: opt.value })); setErrors({}); }}
+                name="filing_type"
+                option={opt}
+                selected={state.filing_type}
+                onSelect={(value) => { setState((s) => ({ ...s, filing_type: value })); setErrors({}); }}
               />
             ))}
           </div>
@@ -253,8 +274,8 @@ export default function RecommendationWizard() {
 
       {step === 2 && (
         <div className="fade-in">
-          <h2 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.5rem' }}>Which income sources apply to you?</h2>
-          <p style={{ color: '#64748b', fontSize: '0.875rem', marginBottom: '1.5rem' }}>Select all that apply. At least one is required.</p>
+          <h2 className="font-heading" style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.5rem' }}>Which income sources apply to you?</h2>
+          <p style={{ color: 'var(--color-body-text)', fontSize: '0.875rem', marginBottom: '1.5rem' }}>Select all that apply. At least one is required.</p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             {INCOME_OPTIONS.map((opt) => (
               <CheckboxOption
@@ -272,8 +293,8 @@ export default function RecommendationWizard() {
 
       {step === 3 && (
         <div className="fade-in">
-          <h2 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.5rem' }}>Which deductions or expenses apply?</h2>
-          <p style={{ color: '#64748b', fontSize: '0.875rem', marginBottom: '1.5rem' }}>Select all that apply. Selecting "No special deductions" clears other selections.</p>
+          <h2 className="font-heading" style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.5rem' }}>Which deductions or expenses apply?</h2>
+          <p style={{ color: 'var(--color-body-text)', fontSize: '0.875rem', marginBottom: '1.5rem' }}>Select all that apply. Selecting "No special deductions" clears other selections.</p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             {DEDUCTION_OPTIONS.map((opt) => (
               <CheckboxOption
@@ -295,8 +316,8 @@ export default function RecommendationWizard() {
 
       {step === 4 && (
         <div className="fade-in">
-          <h2 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.5rem' }}>How much help do you want?</h2>
-          <p style={{ color: '#64748b', fontSize: '0.875rem', marginBottom: '1.5rem' }}>Choose your preferred level of support.</p>
+          <h2 className="font-heading" style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.5rem' }}>How much help do you want?</h2>
+          <p style={{ color: 'var(--color-body-text)', fontSize: '0.875rem', marginBottom: '1.5rem' }}>Choose your preferred level of support.</p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
             {[
               { value: 'file_myself', label: 'I want to file myself' },
@@ -305,10 +326,10 @@ export default function RecommendationWizard() {
             ].map((opt) => (
               <RadioOption
                 key={opt.value}
-                value={opt.value}
-                label={opt.label}
-                selected={state.help_preference === opt.value}
-                onChange={() => { setState((s) => ({ ...s, help_preference: opt.value })); setErrors({}); }}
+                name="help_preference"
+                option={opt}
+                selected={state.help_preference}
+                onSelect={(value) => { setState((s) => ({ ...s, help_preference: value })); setErrors({}); }}
               />
             ))}
           </div>
@@ -318,8 +339,8 @@ export default function RecommendationWizard() {
 
       {step === 5 && (
         <div className="fade-in">
-          <h2 style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.5rem' }}>Did the company have revenue?</h2>
-          <p style={{ color: '#64748b', fontSize: '0.875rem', marginBottom: '1.5rem' }}>This determines the correct corporate filing product.</p>
+          <h2 className="font-heading" style={{ fontSize: '1.25rem', fontWeight: 700, marginBottom: '0.5rem' }}>Did the company have revenue?</h2>
+          <p style={{ color: 'var(--color-body-text)', fontSize: '0.875rem', marginBottom: '1.5rem' }}>This determines the correct corporate filing product.</p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.625rem' }}>
             {[
               { value: 'yes', label: 'Yes, the company had revenue' },
@@ -327,10 +348,10 @@ export default function RecommendationWizard() {
             ].map((opt) => (
               <RadioOption
                 key={opt.value}
-                value={opt.value}
-                label={opt.label}
-                selected={state.company_revenue === opt.value}
-                onChange={() => { setState((s) => ({ ...s, company_revenue: opt.value })); setErrors({}); }}
+                name="company_revenue"
+                option={opt}
+                selected={state.company_revenue}
+                onSelect={(value) => { setState((s) => ({ ...s, company_revenue: value })); setErrors({}); }}
               />
             ))}
           </div>
