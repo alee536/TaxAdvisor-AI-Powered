@@ -1,0 +1,111 @@
+{% load i18n static jazzmin %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+{% get_jazzmin_settings request as jazzmin_settings %}
+{% get_jazzmin_ui_tweaks as jazzmin_ui %}
+
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:"en-us" }}" {% if LANGUAGE_BIDI %}dir="rtl"{% endif %}>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <script>
+        (function() {
+            var mode = localStorage.getItem('jazzmin-theme-mode') || '{{ jazzmin_ui.default_theme_mode|default:"light" }}';
+            if (mode === 'auto') {
+                mode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            }
+            document.documentElement.setAttribute('data-bs-theme', mode);
+        })();
+    </script>
+
+    <title>{% block title %}{{ title }} | {{ jazzmin_settings.site_title }}{% endblock %}</title>
+
+    <link rel="stylesheet" href="{% static "vendor/fontawesome-free/css/all.min.css" %}">
+    <link rel="stylesheet" href="{% static "vendor/adminlte/css/adminlte.min.css" %}">
+
+    {% if jazzmin_ui.theme.name != 'default' %}
+        <link rel="stylesheet" href="{{ jazzmin_ui.theme.src }}" id="jazzmin-theme">
+    {% endif %}
+
+    <link rel="stylesheet" href="{% static "jazzmin/css/main.css" %}">
+    <link rel="stylesheet" href="{% static "products/admin.css" %}">
+
+    {% if jazzmin_settings.custom_css %}
+        <link rel="stylesheet" href="{% static jazzmin_settings.custom_css %}">
+    {% endif %}
+
+    <link rel="shortcut icon" href="{% static jazzmin_settings.site_icon %}" type="image/png">
+    <link rel="icon" href="{% static jazzmin_settings.site_icon %}" sizes="32x32" type="image/png">
+
+    {% if jazzmin_settings.use_google_fonts_cdn %}
+        <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    {% endif %}
+
+    {% block extrastyle %}{% endblock %}
+    {% block extrahead %}{% endblock %}
+</head>
+<body class="login-page bg-body-secondary taxadvisor-auth-page">
+    <div class="ta-auth-shell">
+        <section class="ta-auth-hero" aria-label="TaxAdvisor admin overview">
+            <div class="ta-auth-brand">
+                <span class="h2">
+                    <img src="{% static 'products/taxadvisor-logo-dark.png' %}" style="width: 5rem; height: auto;" alt="" aria-hidden="true">
+                </span>
+                <span>
+                    <small>Admin Console</small>
+                </span>
+            </div>
+
+            <div class="ta-auth-copy">
+                <p class="ta-auth-eyebrow">Secure product management</p>
+                <h1>Manage plans, pricing, and guidance rules from one polished workspace.</h1>
+                <p>
+                    A focused control center for keeping TaxAdvisor product recommendations accurate,
+                    visible, and ready for production.
+                </p>
+            </div>
+
+            <div class="ta-auth-proof-grid" aria-label="Admin features">
+                <div>
+                    <span>01</span>
+                    <strong>Product catalog</strong>
+                    <small>Review plans and capabilities.</small>
+                </div>
+                <div>
+                    <span>02</span>
+                    <strong>Pricing control</strong>
+                    <small>Keep CAD pricing current.</small>
+                </div>
+                <div>
+                    <span>03</span>
+                    <strong>Recommendation rules</strong>
+                    <small>Protect product guidance quality.</small>
+                </div>
+            </div>
+        </section>
+
+        <main class="ta-auth-panel">
+            <div class="ta-auth-card">
+                <div class="ta-auth-card-brand">
+                    <img src="{% static 'products/taxadvisor-logo-dark.png' %}" style="width: 4rem; height: auto;" alt="" aria-hidden="true">
+                    <span>
+                        <small>Admin access</small>
+                    </span>
+                </div>
+                {% block content %}{% endblock %}
+            </div>
+            <p class="ta-auth-footer">Protected dashboard for authorized TaxAdvisor staff.</p>
+        </main>
+    </div>
+
+    <script src="{% static "admin/js/vendor/jquery/jquery.js" %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'vendor/adminlte/js/adminlte.min.js' %}"></script>
+
+    {% if jazzmin_settings.custom_js %}
+        <script src="{% static jazzmin_settings.custom_js %}"></script>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,21 @@
+{% extends "registration/base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+    <div class="ta-auth-state ta-auth-state-logout">
+        <span class="ta-auth-status-icon">
+            <i class="fas fa-check" aria-hidden="true"></i>
+        </span>
+        <p class="ta-auth-kicker">Session ended</p>
+        <h2>{% trans "You have been logged out" %}</h2>
+        <p class="ta-auth-subtitle">
+            {% trans "Thanks for spending some quality time with the TaxAdvisor admin today." %}
+        </p>
+    </div>
+
+    <a class="ta-auth-submit ta-auth-submit-link" href="{% url 'admin:index' %}">
+        {% trans 'Log in again' %}
+        <i class="fas fa-arrow-right" aria-hidden="true"></i>
+    </a>
+{% endblock %}
