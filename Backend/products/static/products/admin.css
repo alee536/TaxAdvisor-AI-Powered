@@ -1,37 +1,41 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap");
+
 :root {
   color-scheme: light;
   --primary: #061a35;
-  --primary-light: #0d3567;
-  --accent: #2563eb;
+  --primary-light: #1E1B4B;
+  --accent: #10B981;
+  --accent-hover: #0D9488;
+  --teal: #0F766E;
   --surface: #ffffff;
-  --canvas: #f4f7fb;
-  --border: #dce5f1;
-  --text: #172033;
+  --canvas: #f8fafc;
+  --border: #dbe7e5;
+  --text: #0f172a;
   --muted: #64748b;
-  --body-fg: #172033;
-  --body-bg: #f4f7fb;
+  --body-fg: #0f172a;
+  --body-bg: #f8fafc;
   --body-quiet-color: #64748b;
   --body-loud-color: #061a35;
   --header-color: #ffffff;
   --header-branding-color: #ffffff;
   --header-bg: #061a35;
   --header-link-color: #dbeafe;
-  --breadcrumbs-fg: #436084;
-  --breadcrumbs-link-fg: #1d4f91;
-  --breadcrumbs-bg: #eaf2fd;
-  --link-fg: #1d4ed8;
-  --link-hover-color: #1e40af;
-  --link-selected-fg: #1e40af;
+  --breadcrumbs-fg: #475569;
+  --breadcrumbs-link-fg: #0F766E;
+  --breadcrumbs-bg: #ffffff;
+  --link-fg: #0F766E;
+  --link-hover-color: #0D9488;
+  --link-selected-fg: #0D9488;
   --hairline-color: #dce5f1;
   --border-color: #dce5f1;
-  --darkened-bg: #eef5ff;
-  --selected-bg: #dbeafe;
-  --selected-row: #f6faff;
+  --darkened-bg: #ecfdf5;
+  --selected-bg: #d1fae5;
+  --selected-row: #ecfdf5;
   --button-fg: #ffffff;
-  --button-bg: #2563eb;
-  --button-hover-bg: #1d4ed8;
-  --default-button-bg: #2563eb;
-  --default-button-hover-bg: #1d4ed8;
+  --button-bg: #10B981;
+  --button-hover-bg: #0D9488;
+  --default-button-bg: #10B981;
+  --default-button-hover-bg: #0D9488;
   --close-button-bg: #64748b;
   --close-button-hover-bg: #475569;
 }
@@ -67,9 +71,205 @@
 }
 
 body {
-  background: var(--canvas);
+  background:
+    radial-gradient(circle at 88% 8%, rgba(16, 185, 129, 0.12), transparent 28%),
+    linear-gradient(180deg, #f8fafc 0%, #eef6f4 100%);
   color: var(--text);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+input,
+textarea,
+select,
+.vTextField,
+.vLargeTextField,
+.form-row .flex-container input,
+.form-row .flex-container textarea,
+.form-row .flex-container select,
+.field-box input,
+.field-box textarea,
+.field-box select {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
+  caret-color: #0f172a !important;
+}
+
+input::placeholder,
+textarea::placeholder,
+select::placeholder {
+  color: #64748b !important;
+  opacity: 1 !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  -webkit-text-fill-color: #0f172a !important;
+}
+
+.aligned .form-row label,
+.aligned .form-row .help,
+.aligned .form-row .helptext,
+.aligned .form-row .description,
+.aligned .form-row .readonly,
+.aligned .form-row span,
+.aligned .form-row p,
+.aligned .form-row legend {
+  color: #0f172a !important;
+}
+
+.aligned .form-row input,
+.aligned .form-row textarea,
+.aligned .form-row select {
+  border-color: #cbd5e1 !important;
+  box-shadow: none !important;
+}
+
+.aligned .form-row textarea {
+  min-height: 160px;
+  background: #ffffff !important;
+}
+
+h1,
+h2,
+h3,
+.brand-text,
+.taxadvisor-brand strong {
+  font-family: "Space Grotesk", Inter, sans-serif;
+}
+
+.wrapper,
+.content-wrapper {
+  background:
+    radial-gradient(circle at 92% 8%, rgba(16, 185, 129, 0.11), transparent 28%),
+    linear-gradient(180deg, #f8fafc 0%, #eef6f4 100%) !important;
+}
+
+.main-sidebar,
+.main-sidebar::before {
+  background: linear-gradient(180deg, #061a35 0%, #0f172a 52%, #0F766E 140%) !important;
+  box-shadow: 8px 0 28px rgba(15, 23, 42, 0.18);
+}
+
+.brand-link {
+  min-height: 76px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.brand-link .brand-image {
+  width: 42px !important;
+  max-height: 42px !important;
+  object-fit: contain;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  opacity: 1 !important;
+}
+
+.brand-link .brand-image.taxadvisor-admin-logo {
+  width: 46px !important;
+  max-height: 42px !important;
+  margin-left: 0.2rem;
+  margin-right: 0.65rem;
+  background: transparent;
+}
+
+.brand-link .brand-text {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+.sidebar {
+  padding: 14px 10px 24px;
+}
+
+.sidebar .user-panel {
+  margin-bottom: 16px !important;
+  padding: 12px 10px !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.sidebar .user-panel a,
+.sidebar .nav-header,
+.sidebar .nav-link {
+  color: #cbd5e1 !important;
+}
+
+.sidebar .nav-header {
+  margin: 14px 0 8px;
+  padding: 0 12px;
+  color: #93c5fd !important;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sidebar .nav-link {
+  min-height: 42px;
+  margin-bottom: 5px;
+  border-radius: 12px !important;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.sidebar .nav-link:hover {
+  background: rgba(16, 185, 129, 0.12) !important;
+  color: #ffffff !important;
+  transform: translateX(2px);
+}
+
+.sidebar .nav-link.active {
+  background: #10B981 !important;
+  box-shadow: 0 12px 24px rgba(16, 185, 129, 0.22) !important;
+  color: #ffffff !important;
+  font-weight: 800;
+}
+
+.main-header.navbar {
+  min-height: 72px;
+  border: 0 !important;
+  background: rgba(255, 255, 255, 0.82) !important;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 1px 0 rgba(15, 23, 42, 0.08);
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: #334155 !important;
+}
+
+.content-header {
+  padding: 28px 28px 8px !important;
+}
+
+.content-header h1,
+#content h1 {
+  color: #0f172a !important;
+  font-family: "Space Grotesk", Inter, sans-serif;
+  font-size: clamp(30px, 3vw, 42px) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0 !important;
+}
+
+.breadcrumb {
+  overflow: hidden;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 12px !important;
+  background: #ffffff !important;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.06);
+}
+
+.breadcrumb-item a {
+  color: #0F766E !important;
+  font-weight: 700;
+}
+
+.content {
+  padding: 18px 28px 42px !important;
 }
 
 #header {
@@ -78,7 +278,7 @@ body {
   gap: 20px;
   min-height: 76px;
   padding: 0 32px;
-  background: linear-gradient(110deg, var(--primary), var(--primary-light));
+  background: linear-gradient(110deg, var(--primary), var(--teal));
   box-shadow: 0 3px 18px rgba(6, 26, 53, 0.22);
 }
 
@@ -91,17 +291,10 @@ body {
 }
 
 .taxadvisor-mark {
-  display: grid;
+  display: block;
   width: 36px;
   height: 36px;
-  place-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  border-radius: 10px;
-  background: rgba(255, 255, 255, 0.13);
-  color: #ffffff;
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: -0.08em;
+  object-fit: contain;
 }
 
 .taxadvisor-brand strong,
@@ -227,8 +420,232 @@ fieldset.module {
 }
 
 .form-row label {
-  color: #334155;
+  color: #0f172a !important;
   font-weight: 700;
+}
+
+.change-form .form-row,
+.change-form .form-row div,
+.change-form .form-row p,
+.change-form .form-row label,
+.change-form .form-row .readonly,
+.change-form .form-row .help,
+.change-form .form-row .help li,
+.change-form .form-row .helptext,
+.change-form .form-row .fieldBox,
+.change-form fieldset,
+.change-form fieldset.module,
+.change-form .aligned label,
+.change-form .aligned .form-row p,
+.change-form .aligned .form-row div.readonly,
+.change-form .readonly,
+.change-form .help,
+.change-form .helptext,
+.change-form .description,
+.change-form .datetime,
+.change-form .vCheckboxLabel {
+  color: #0f172a !important;
+}
+
+.change-form .form-row .help,
+.change-form .form-row .help li,
+.change-form .help,
+.change-form .helptext,
+.change-form .description {
+  color: #475569 !important;
+}
+
+.change-form .card,
+.change-form .card-body,
+.change-form fieldset.module,
+.change-form .tab-content,
+.change-form .tab-pane {
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+
+.change-form .nav-tabs .nav-link {
+  color: #0f172a !important;
+  font-weight: 700;
+}
+
+.change-form .nav-tabs .nav-link.active {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #e2e8f0 #e2e8f0 #ffffff !important;
+}
+
+.change-form .required label,
+.change-form label.required {
+  color: #0f172a !important;
+}
+
+.change-form .required label::after,
+.change-form label.required::after {
+  color: #ef4444 !important;
+}
+
+.content-wrapper .content .card,
+.content-wrapper .content .card-body,
+.content-wrapper .content .card-header,
+.content-wrapper .content form,
+.content-wrapper .content fieldset,
+.content-wrapper .content .module,
+.content-wrapper .content .form-row,
+.content-wrapper .content .aligned,
+.content-wrapper .content .submit-row {
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+
+.content-wrapper .content p,
+.content-wrapper .content label,
+.content-wrapper .content span,
+.content-wrapper .content div,
+.content-wrapper .content li,
+.content-wrapper .content td,
+.content-wrapper .content th,
+.content-wrapper .content .help,
+.content-wrapper .content .helptext,
+.content-wrapper .content .description,
+.content-wrapper .content .readonly,
+.content-wrapper .content .errornote,
+.content-wrapper .content ul.errorlist,
+.content-wrapper .content .form-row p,
+.content-wrapper .content .form-row label {
+  color: #0f172a !important;
+}
+
+.content-wrapper .content .help,
+.content-wrapper .content .helptext,
+.content-wrapper .content .description {
+  color: #475569 !important;
+}
+
+.content-wrapper .content .card-header,
+.content-wrapper .content .card-title,
+.content-wrapper .content .callout,
+.content-wrapper .content .callout p,
+.content-wrapper .content form > p,
+.content-wrapper .content .module > p {
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+
+.content-wrapper .content .card-header,
+.content-wrapper .content form > p:first-child,
+.content-wrapper .content .module > p:first-child {
+  padding: 18px 24px !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
+.content-wrapper .content .card-body,
+.content-wrapper .content fieldset,
+.content-wrapper .content .form-row {
+  padding-right: 24px !important;
+  padding-left: 24px !important;
+}
+
+.content-wrapper .content input,
+.content-wrapper .content textarea,
+.content-wrapper .content select {
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+
+.content-wrapper .content input::placeholder,
+.content-wrapper .content textarea::placeholder {
+  color: #64748b !important;
+}
+
+body.change-password .content .card,
+body.change-password .content form,
+body.change-password .content .module {
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+
+body.change-password .content .card-header,
+body.change-password .content form > p:first-child,
+body.change-password .content .module > p:first-child {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  padding: 18px 24px !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
+body.change-password .content .card-body,
+body.change-password .content fieldset,
+body.change-password .content .form-row {
+  padding-right: 24px !important;
+  padding-left: 24px !important;
+}
+
+body.change-password .content fieldset {
+  padding-top: 22px !important;
+  padding-bottom: 22px !important;
+}
+
+body.change-password .content .submit-row {
+  margin-top: 18px !important;
+  padding: 18px 24px !important;
+}
+
+body.change-password .content label,
+body.change-password .content p,
+body.change-password .content li,
+body.change-password .content span,
+body.change-password .content div,
+body.change-password .content .help,
+body.change-password .content .helptext {
+  color: #0f172a !important;
+}
+
+body.change-password .content .help,
+body.change-password .content .helptext,
+body.change-password .content ul {
+  color: #475569 !important;
+}
+
+.selector,
+.selector-available,
+.selector-chosen,
+.selector .selector-filter,
+.selector .selector-filter label,
+.selector h2,
+.selector select,
+.selector option {
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+
+.selector h2 {
+  border: 1px solid #e2e8f0 !important;
+  border-bottom: 0 !important;
+  border-radius: 12px 12px 0 0 !important;
+  font-weight: 800 !important;
+}
+
+.selector .selector-filter {
+  border-right: 1px solid #e2e8f0 !important;
+  border-left: 1px solid #e2e8f0 !important;
+}
+
+.selector .selector-filter input {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+.selector select {
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 0 0 12px 12px !important;
+}
+
+.selector option:checked,
+.selector option:hover {
+  background: #ecfdf5 !important;
+  color: #0f172a !important;
 }
 
 input[type="text"],
@@ -240,9 +657,9 @@ textarea,
 select,
 .vTextField {
   min-height: 38px;
-  border: 1px solid #c8d5e5;
-  border-radius: 7px;
-  background: #fbfdff;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  background: #ffffff;
   color: var(--text);
   box-shadow: none;
 }
@@ -255,7 +672,23 @@ input:focus,
 textarea:focus,
 select:focus {
   border-color: var(--accent);
-  outline: 3px solid rgba(37, 99, 235, 0.13);
+  outline: 3px solid rgba(16, 185, 129, 0.13);
+}
+
+.card,
+.module,
+.inline-group,
+#changelist-filter,
+.submit-row {
+  border: 1px solid rgba(226, 232, 240, 0.95) !important;
+  border-radius: 18px !important;
+  background: #ffffff !important;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08) !important;
+}
+
+.card-header {
+  border-bottom: 1px solid #e2e8f0 !important;
+  background: linear-gradient(180deg, #ffffff, #f8fafc) !important;
 }
 
 #changelist {
@@ -263,11 +696,26 @@ select:focus {
   gap: 20px;
 }
 
+#changelist .results {
+  box-sizing: border-box !important;
+  width: auto !important;
+  margin: 22px 34px 8px !important;
+  padding: 0 !important;
+  overflow-x: auto !important;
+}
+
+#changelist .paginator,
+.paginator {
+  padding: 14px 34px 18px !important;
+  color: #0f172a !important;
+}
+
 #changelist #toolbar {
   padding: 14px 16px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: var(--surface);
+  border: 1px solid rgba(226, 232, 240, 0.95);
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.05);
 }
 
 #changelist #toolbar form input {
@@ -276,15 +724,19 @@ select:focus {
 
 #changelist table {
   overflow: hidden;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--surface);
-  box-shadow: 0 5px 18px rgba(15, 39, 73, 0.06);
+  border: 1px solid rgba(15, 118, 110, 0.18);
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 16px 40px rgba(15, 23, 42, 0.08);
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
 }
 
 #changelist table thead th {
-  padding: 13px 12px;
-  background: #061a35;
+  padding: 15px 14px;
+  background: linear-gradient(135deg, #1E1B4B, #061a35);
   color: #ffffff;
   border-bottom: 1px solid #061a35;
   font-size: 11px;
@@ -300,17 +752,53 @@ select:focus {
 }
 
 #changelist table thead th.sorted {
-  background: #0b2a55;
+  background: linear-gradient(135deg, #0F766E, #061a35);
 }
 
 #changelist table tbody td,
 #changelist table tbody th {
-  padding: 13px 12px;
-  border-bottom: 1px solid #edf1f6;
+  padding: 15px 14px;
+  padding-right: 22px !important;
+  border-bottom: 1px solid #e2e8f0;
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+
+#changelist table thead th:last-child,
+#changelist table tbody td:last-child,
+#changelist table tbody th:last-child,
+#changelist table .field-key_capabilities {
+  padding-right: 32px !important;
+}
+
+#changelist .paginator {
+  box-sizing: border-box !important;
+  width: auto !important;
+  margin: 0 28px 24px !important;
+  padding: 18px 0 0 !important;
+  color: #0f172a !important;
+}
+
+#changelist-form .card,
+#changelist-form .card-body,
+#changelist-form #changelist {
+  overflow: visible !important;
 }
 
 #changelist table tbody tr:hover {
-  background: #f6faff;
+  background: #ecfdf5 !important;
+}
+
+#changelist table tbody tr:hover td,
+#changelist table tbody tr:hover th {
+  background: #ecfdf5 !important;
+  color: #0f172a !important;
+}
+
+#changelist table tbody a,
+#changelist table tbody a:link,
+#changelist table tbody a:visited {
+  color: #0f172a !important;
 }
 
 #changelist-filter {
@@ -342,9 +830,9 @@ input[type="button"],
 .submit-row input,
 a.button {
   border: 0;
-  border-radius: 7px;
+  border-radius: 10px;
   background: var(--accent);
-  box-shadow: 0 2px 5px rgba(37, 99, 235, 0.22);
+  box-shadow: 0 10px 22px rgba(16, 185, 129, 0.2);
   color: #ffffff;
   font-weight: 700;
 }
@@ -357,13 +845,22 @@ a.button:hover {
   background: #1d4ed8;
 }
 
+.button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover,
+.submit-row input:hover,
+a.button:hover {
+  background: var(--accent-hover) !important;
+}
+
 .submit-row {
   padding: 14px;
 }
 
 .object-tools a {
-  border-radius: 7px;
+  border-radius: 12px;
   background: var(--accent);
+  box-shadow: 0 12px 24px rgba(16, 185, 129, 0.22);
 }
 
 .dashboard .module table th a {
@@ -410,6 +907,43 @@ a.button:hover {
 
 .dashboard #content-main .module caption a {
   color: #163b67 !important;
+}
+
+.dashboard #content-main .module caption,
+.dashboard #content-main .module h2,
+#content-related .module h2 {
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+
+.dashboard #content-main .module table,
+.dashboard #content-main .module tbody,
+.dashboard #content-main .module tr,
+.dashboard #content-main .module th,
+.dashboard #content-main .module td,
+.dashboard #content-main .module th a,
+.dashboard #content-main .module td a,
+.dashboard #content-main .module th a:link,
+.dashboard #content-main .module td a:link,
+.dashboard #content-main .module th a:visited,
+.dashboard #content-main .module td a:visited,
+#content-related,
+#content-related .module,
+#content-related .module p,
+#content-related .actionlist,
+#content-related .actionlist li,
+#content-related .actionlist li a,
+#content-related .actionlist li a:link,
+#content-related .actionlist li a:visited {
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+
+.dashboard #content-main .module tr:hover,
+.dashboard #content-main .module tr:hover th,
+.dashboard #content-main .module tr:hover td {
+  background: #ecfdf5 !important;
+  color: #0f172a !important;
 }
 
 .dashboard #content-main .module th,
@@ -500,8 +1034,8 @@ a.button:hover {
 body.login {
   min-height: 100vh;
   background:
-    radial-gradient(circle at 10% 15%, rgba(37, 99, 235, 0.16), transparent 30%),
-    linear-gradient(145deg, #edf4ff, #f8fafc 48%, #e6effc);
+    radial-gradient(circle at 10% 15%, rgba(16, 185, 129, 0.22), transparent 30%),
+    linear-gradient(145deg, #1E1B4B, #061a35 52%, #0F766E);
 }
 
 .login #container {
@@ -509,15 +1043,15 @@ body.login {
   margin: clamp(40px, 12vh, 120px) auto;
   overflow: hidden;
   border: 1px solid #d8e3f1;
-  border-radius: 18px;
+  border-radius: 24px;
   background: #ffffff;
-  box-shadow: 0 22px 54px rgba(12, 39, 77, 0.18);
+  box-shadow: 0 28px 70px rgba(2, 6, 23, 0.34);
 }
 
 .login #header {
   min-height: 136px;
   padding: 28px 32px;
-  background: linear-gradient(125deg, #061a35, #0b3d78);
+  background: linear-gradient(125deg, #1E1B4B, #0F766E);
   box-shadow: none;
 }
 
@@ -611,5 +1145,452 @@ body.login {
   .login #content {
     padding-right: 22px;
     padding-left: 22px;
+  }
+}
+
+/* Modern shared authentication screens for login and logged-out views. */
+body.taxadvisor-auth-page {
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  background:
+    radial-gradient(circle at 14% 20%, rgba(16, 185, 129, 0.34), transparent 26%),
+    radial-gradient(circle at 84% 16%, rgba(59, 130, 246, 0.22), transparent 28%),
+    linear-gradient(135deg, #1E1B4B 0%, #061529 48%, #0F766E 100%) !important;
+  color: #0f172a;
+  font-family: Inter, "Source Sans Pro", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body.taxadvisor-auth-page::before {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  content: "";
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.055) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.8), transparent 78%);
+}
+
+.ta-auth-shell {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  min-height: 100vh;
+  grid-template-columns: minmax(0, 1.05fr) minmax(390px, 0.95fr);
+}
+
+.ta-auth-hero,
+.ta-auth-panel {
+  min-width: 0;
+}
+
+.ta-auth-hero {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(34px, 6vw, 78px);
+  color: #ffffff;
+}
+
+.ta-auth-brand,
+.ta-auth-card-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.ta-auth-brand-mark {
+  display: inline-flex;
+  width: 72px;
+  height: 58px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
+}
+
+.ta-auth-brand img,
+.ta-auth-card-brand img {
+  display: block;
+  width: 54px;
+  height: 42px;
+  object-fit: contain;
+}
+
+.ta-auth-brand strong,
+.ta-auth-card-brand strong {
+  display: block;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+.ta-auth-brand strong {
+  color: #ffffff;
+  font-size: 26px;
+  font-weight: 900;
+}
+
+.ta-auth-brand small {
+  display: block;
+  margin-top: 5px;
+  color: #a7f3d0;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.ta-auth-copy {
+  max-width: 680px;
+  padding: clamp(46px, 9vw, 110px) 0;
+}
+
+.ta-auth-eyebrow,
+.ta-auth-kicker {
+  margin: 0 0 14px;
+  color: #6ee7b7;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.ta-auth-copy h1 {
+  margin: 0;
+  color: #ffffff;
+  font-size: clamp(42px, 5vw, 74px);
+  font-weight: 900;
+  letter-spacing: -0.045em;
+  line-height: 0.96;
+}
+
+.ta-auth-copy p:last-child {
+  max-width: 610px;
+  margin: 24px 0 0;
+  color: #dbeafe;
+  font-size: clamp(17px, 1.5vw, 20px);
+  line-height: 1.75;
+}
+
+.ta-auth-proof-grid {
+  display: grid;
+  max-width: 760px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.ta-auth-proof-grid div {
+  min-height: 136px;
+  padding: 18px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(18px);
+}
+
+.ta-auth-proof-grid span {
+  display: inline-flex;
+  width: 34px;
+  height: 28px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(16, 185, 129, 0.16);
+  color: #a7f3d0;
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.ta-auth-proof-grid strong,
+.ta-auth-proof-grid small {
+  display: block;
+}
+
+.ta-auth-proof-grid strong {
+  margin-top: 18px;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.ta-auth-proof-grid small {
+  margin-top: 6px;
+  color: #cbd5e1;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.ta-auth-panel {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(26px, 5vw, 72px);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.78), rgba(236, 253, 245, 0.9)),
+    radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.9), transparent 48%);
+}
+
+.ta-auth-card {
+  width: min(100%, 468px);
+  padding: 34px;
+  border: 1px solid rgba(203, 213, 225, 0.9);
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow:
+    0 30px 80px rgba(15, 23, 42, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(22px);
+}
+
+.ta-auth-card-brand {
+  margin-bottom: 30px;
+  padding: 10px 12px 10px 10px;
+  border: 1px solid #dbeafe;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #0f172a, #1E1B4B);
+  color: #ffffff;
+}
+
+.ta-auth-card-brand img {
+  width: 38px;
+  height: 34px;
+}
+
+.ta-auth-card-brand strong {
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+.ta-auth-card-brand small {
+  display: block;
+  margin-top: 3px;
+  color: #a7f3d0;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.ta-auth-state h2 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 31px;
+  font-weight: 900;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+}
+
+.ta-auth-subtitle {
+  margin: 12px 0 0;
+  color: #64748b;
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.ta-auth-form {
+  display: grid;
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.ta-auth-field {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.ta-auth-field > span:first-child {
+  color: #334155;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.ta-auth-input-wrap {
+  position: relative;
+  display: block;
+}
+
+.ta-auth-input-wrap input {
+  width: 100%;
+  min-height: 54px;
+  padding: 14px 48px 14px 16px;
+  border: 1px solid #cbd5e1;
+  border-radius: 15px;
+  background: #ffffff;
+  color: #0f172a;
+  font-size: 15px;
+  font-weight: 700;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+}
+
+.ta-auth-input-wrap input:focus {
+  border-color: #10B981;
+  outline: 0;
+  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.15);
+  transform: translateY(-1px);
+}
+
+.ta-auth-input-wrap i {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  color: #0D9488;
+  transform: translateY(-50%);
+}
+
+.ta-auth-link {
+  justify-self: start;
+  color: #0D9488;
+  font-size: 13px;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.ta-auth-link:hover {
+  color: #0f766e;
+  text-decoration: underline;
+}
+
+.ta-auth-submit {
+  display: inline-flex;
+  width: 100%;
+  min-height: 54px;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 4px;
+  border: 0;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #10B981, #0D9488);
+  color: #ffffff !important;
+  font-size: 15px;
+  font-weight: 900;
+  text-decoration: none;
+  box-shadow: 0 14px 30px rgba(13, 148, 136, 0.32);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.ta-auth-submit:hover {
+  color: #ffffff !important;
+  text-decoration: none;
+  box-shadow: 0 18px 38px rgba(13, 148, 136, 0.38);
+  transform: translateY(-1px);
+}
+
+.ta-auth-alert {
+  padding: 13px 14px;
+  border: 1px solid #fecaca;
+  border-radius: 14px;
+  background: #fff1f2;
+  color: #991b1b;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1.5;
+}
+
+.ta-auth-alert p {
+  margin: 0;
+  color: #991b1b;
+}
+
+.ta-auth-status-icon {
+  display: inline-flex;
+  width: 58px;
+  height: 58px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 22px;
+  border-radius: 18px;
+  background: #ecfdf5;
+  color: #0D9488;
+  font-size: 22px;
+  box-shadow: inset 0 0 0 1px #bbf7d0;
+}
+
+.ta-auth-state-logout {
+  text-align: center;
+}
+
+.ta-auth-state-logout .ta-auth-kicker {
+  color: #0D9488;
+}
+
+.ta-auth-submit-link {
+  margin-top: 28px;
+}
+
+.ta-auth-footer {
+  position: fixed;
+  right: clamp(26px, 5vw, 72px);
+  bottom: 24px;
+  margin: 0;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+@media (max-width: 1060px) {
+  .ta-auth-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .ta-auth-hero {
+    min-height: auto;
+    padding-bottom: 34px;
+  }
+
+  .ta-auth-copy {
+    padding: 42px 0 30px;
+  }
+
+  .ta-auth-panel {
+    align-items: start;
+    padding-top: 0;
+    background: transparent;
+  }
+
+  .ta-auth-card {
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28);
+  }
+
+  .ta-auth-footer {
+    position: static;
+    width: min(100%, 468px);
+    margin: 16px auto 0;
+    color: #dbeafe;
+    text-align: center;
+  }
+}
+
+@media (max-width: 720px) {
+  .ta-auth-hero {
+    padding: 26px;
+  }
+
+  .ta-auth-copy h1 {
+    font-size: 38px;
+  }
+
+  .ta-auth-proof-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ta-auth-proof-grid div {
+    min-height: auto;
+  }
+
+  .ta-auth-panel {
+    padding: 0 18px 28px;
+  }
+
+  .ta-auth-card {
+    padding: 24px;
+    border-radius: 24px;
   }
 }

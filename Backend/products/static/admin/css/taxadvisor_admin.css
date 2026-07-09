@@ -8,12 +8,23 @@
 :root {
   color-scheme: light;
   --ta-navy: #061a35;
+  --ta-indigo: #1E1B4B;
+  --ta-teal: #0F766E;
+  --ta-emerald: #10B981;
+  --ta-emerald-dark: #0D9488;
   --ta-blue: #0b3d78;
   --ta-ink: #172033;
   --ta-muted: #64748b;
   --ta-border: #dce5f1;
-  --ta-canvas: #f4f7fb;
+  --ta-canvas: #f8fafc;
   --ta-surface: #ffffff;
+  --ta-soft: #ecfdf5;
+}
+
+body {
+  background:
+    radial-gradient(circle at 88% 12%, rgba(16, 185, 129, 0.12), transparent 28%),
+    linear-gradient(180deg, #f8fafc 0%, #eef6f4 100%);
 }
 
 body,
@@ -61,125 +72,532 @@ body,
 }
 
 .ta-id-badge {
-  padding: 4px 8px;
-  border-radius: 6px;
-  background: #eaf2fd;
-  color: #0b3d78;
+  padding: 6px 10px;
+  border: 1px solid rgba(16, 185, 129, 0.28);
+  border-radius: 8px;
+  background: #ecfdf5;
+  color: #0f766e;
   font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 12px;
 }
 
 .ta-price-badge {
-  color: #0f5132;
+  color: var(--ta-emerald-dark);
   font-variant-numeric: tabular-nums;
 }
 
 .ta-plan-pill {
-  padding: 5px 9px;
+  padding: 6px 10px;
   border-radius: 999px;
   font-size: 11px;
+  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.06);
 }
 
-.ta-plan-personal { background: #eaf2fd; color: #1d4f91; }
-.ta-plan-self-employed { background: #f3e8ff; color: #7e22ce; }
-.ta-plan-expert { background: #ecfdf5; color: #047857; }
-.ta-plan-service { background: #fff7ed; color: #c2410c; }
+.ta-plan-personal { background: #eef2ff; color: #3730a3; }
+.ta-plan-self-employed { background: #ecfdf5; color: #0f766e; }
+.ta-plan-expert { background: #d1fae5; color: #047857; }
+.ta-plan-service { background: #fef3c7; color: #b45309; }
 .ta-plan-corporate { background: #e0f2fe; color: #075985; }
 
 .ta-feature-pill {
   margin: 2px 4px 2px 0;
-  padding: 3px 7px;
-  border: 1px solid #d7e4f3;
+  padding: 5px 9px;
+  border: 1px solid #d1fae5;
   border-radius: 999px;
-  background: #f8fbff;
-  color: #38516f;
-  font-size: 10px;
+  background: #ffffff;
+  color: #334155;
+  font-size: 11px;
 }
 
 .ta-dashboard {
   width: 100%;
   margin: 0 0 32px;
-  padding: 28px;
-  border: 1px solid var(--ta-border);
-  border-radius: 18px;
-  background: linear-gradient(135deg, #ffffff, #f4f8fe);
-  box-shadow: 0 12px 32px rgba(15, 39, 73, 0.08);
+  padding: 0;
+  border: 1px solid rgba(15, 118, 110, 0.16);
+  border-radius: 24px;
+  background: #ffffff;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+  overflow: hidden;
 }
 
-.ta-dashboard-heading {
+.ta-dashboard-hero {
   display: flex;
-  align-items: end;
+  align-items: center;
   justify-content: space-between;
   gap: 24px;
-  margin-bottom: 20px;
+  padding: 34px 36px 84px;
+  background:
+    radial-gradient(circle at 90% 12%, rgba(16, 185, 129, 0.28), transparent 24%),
+    linear-gradient(135deg, var(--ta-indigo) 0%, var(--ta-teal) 100%);
+  color: #ffffff;
 }
 
-.ta-dashboard-heading h1,
+.ta-dashboard-hero h1,
 .ta-chart-card h2 {
   margin: 0;
-  color: var(--ta-navy);
   font-weight: 800;
-  letter-spacing: -0.035em;
+  letter-spacing: 0;
 }
 
-.ta-dashboard-heading h1 { font-size: 36px; }
+.ta-dashboard-hero h1 {
+  max-width: 760px;
+  color: #ffffff;
+  font-family: "Space Grotesk", Inter, sans-serif;
+  font-size: clamp(34px, 4vw, 52px);
+  line-height: 1.05;
+}
+.ta-chart-card h2 {
+  color: var(--ta-navy);
+  font-family: "Space Grotesk", Inter, sans-serif;
+}
 .ta-chart-card h2 { font-size: 24px; }
-.ta-dashboard-heading p:not(.ta-eyebrow),
+.ta-dashboard-hero p:not(.ta-eyebrow),
 .ta-chart-card p:not(.ta-eyebrow) { margin: 8px 0 0; color: var(--ta-muted); font-size: 15px; line-height: 1.55; }
+.ta-dashboard-hero p:not(.ta-eyebrow) {
+  max-width: 620px;
+  color: #d1fae5;
+  font-size: 16px;
+}
 
 .ta-eyebrow {
   margin: 0 0 7px;
-  color: #2563eb;
+  color: var(--ta-emerald);
   font-size: 11px;
   font-weight: 800;
   letter-spacing: 0.09em;
   text-transform: uppercase;
+}
+.ta-dashboard-hero .ta-eyebrow {
+  color: #bbf7d0;
 }
 
 .ta-dashboard-action {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 40px;
-  padding: 0 14px;
-  border-radius: 8px;
-  background: var(--ta-navy);
+  min-height: 46px;
+  padding: 0 18px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 12px;
+  background: var(--ta-emerald);
+  box-shadow: 0 14px 30px rgba(16, 185, 129, 0.24);
   color: #ffffff !important;
   font-weight: 800;
   text-decoration: none;
+}
+.ta-dashboard-action:hover {
+  background: var(--ta-emerald-dark);
 }
 
 .ta-stat-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 18px;
-  margin-bottom: 22px;
+  margin: -48px 36px 24px;
+  position: relative;
+  z-index: 1;
 }
 
 .ta-stat-card,
 .ta-chart-card {
-  border: 1px solid var(--ta-border);
-  border-radius: 12px;
+  border: 1px solid rgba(226, 232, 240, 0.95);
+  border-radius: 18px;
   background: var(--ta-surface);
-  box-shadow: 0 5px 18px rgba(15, 39, 73, 0.06);
+  box-shadow: 0 12px 34px rgba(15, 23, 42, 0.08);
 }
 
-.ta-stat-card { min-height: 138px; padding: 22px; }
+.ta-stat-card {
+  min-height: 170px;
+  padding: 22px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.ta-stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.12);
+}
+.ta-stat-icon {
+  display: inline-flex;
+  width: 42px;
+  height: 42px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+  border-radius: 12px;
+}
+.ta-stat-icon svg {
+  width: 22px;
+  height: 22px;
+}
 .ta-stat-card span,
-.ta-stat-card small { display: block; color: var(--ta-muted); }
-.ta-stat-card span { font-size: 14px; font-weight: 800; }
-.ta-stat-card strong { display: block; margin: 10px 0 5px; color: var(--ta-navy); font-size: 36px; font-weight: 800; line-height: 1; }
-.ta-stat-card small { font-size: 13px; line-height: 1.4; }
+.ta-stat-card small {
+  display: block;
+  color: var(--ta-muted);
+}
+.ta-stat-card span {
+  margin-bottom: 8px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.ta-stat-card strong {
+  display: block;
+  color: #0f172a;
+  font-family: "Space Grotesk", Inter, sans-serif;
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1;
+}
+.ta-stat-card small {
+  margin-top: 8px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+.ta-stat-card-emerald .ta-stat-icon { background: #d1fae5; color: var(--ta-emerald-dark); }
+.ta-stat-card-indigo .ta-stat-icon { background: #e0e7ff; color: #4f46e5; }
+.ta-stat-card-amber .ta-stat-icon { background: #fef3c7; color: #d97706; }
+.ta-stat-card-slate .ta-stat-icon { background: #f1f5f9; color: #475569; }
 
 .ta-chart-card {
   display: grid;
   grid-template-columns: minmax(220px, 0.42fr) minmax(0, 0.58fr);
   align-items: center;
   gap: 36px;
-  padding: 28px;
+  margin: 0 36px 36px;
+  padding: 30px;
 }
 
 .ta-chart-wrap { height: 280px; }
+
+#changelist table {
+  border-color: rgba(15, 118, 110, 0.16) !important;
+  border-radius: 18px !important;
+  background: #ffffff !important;
+  box-shadow: 0 18px 46px rgba(15, 23, 42, 0.1) !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+}
+
+#changelist .results {
+  box-sizing: border-box !important;
+  width: auto !important;
+  margin: 22px 28px 8px !important;
+  padding: 0 !important;
+  overflow-x: auto !important;
+}
+
+#changelist table thead th {
+  background: linear-gradient(135deg, var(--ta-indigo), var(--ta-navy)) !important;
+  color: #ffffff !important;
+}
+
+#changelist table tbody tr {
+  background: #ffffff !important;
+  transition: background-color 0.18s ease;
+}
+
+#changelist table tbody td,
+#changelist table tbody th {
+  padding-right: 22px !important;
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+
+#changelist table thead th:last-child,
+#changelist table tbody td:last-child,
+#changelist table tbody th:last-child,
+#changelist table .field-key_capabilities {
+  padding-right: 32px !important;
+}
+
+#changelist .paginator {
+  box-sizing: border-box !important;
+  width: auto !important;
+  margin: 0 28px 24px !important;
+  padding: 18px 0 0 !important;
+  color: #0f172a !important;
+}
+
+#changelist-form .card,
+#changelist-form .card-body,
+#changelist-form #changelist {
+  overflow: visible !important;
+}
+
+#changelist table tbody tr:hover {
+  background: #ecfdf5 !important;
+}
+
+#changelist table tbody tr:hover td,
+#changelist table tbody tr:hover th {
+  background: #ecfdf5 !important;
+  color: #0f172a !important;
+}
+
+#changelist table tbody a,
+#changelist table tbody a:link,
+#changelist table tbody a:visited {
+  color: #0f172a !important;
+}
+
+.change-form .form-row,
+.change-form .form-row div,
+.change-form .form-row p,
+.change-form .form-row label,
+.change-form .form-row .readonly,
+.change-form .form-row .help,
+.change-form .form-row .help li,
+.change-form .form-row .helptext,
+.change-form .form-row .fieldBox,
+.change-form fieldset,
+.change-form fieldset.module,
+.change-form .aligned label,
+.change-form .aligned .form-row p,
+.change-form .aligned .form-row div.readonly,
+.change-form .readonly,
+.change-form .help,
+.change-form .helptext,
+.change-form .description,
+.change-form .datetime,
+.change-form .vCheckboxLabel {
+  color: #0f172a !important;
+}
+
+.change-form .form-row .help,
+.change-form .form-row .help li,
+.change-form .help,
+.change-form .helptext,
+.change-form .description {
+  color: #475569 !important;
+}
+
+.change-form .card,
+.change-form .card-body,
+.change-form fieldset.module,
+.change-form .tab-content,
+.change-form .tab-pane {
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+
+.change-form .nav-tabs .nav-link {
+  color: #0f172a !important;
+  font-weight: 700;
+}
+
+.change-form .nav-tabs .nav-link.active {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #e2e8f0 #e2e8f0 #ffffff !important;
+}
+
+.change-form .required label,
+.change-form label.required {
+  color: #0f172a !important;
+}
+
+.change-form .required label::after,
+.change-form label.required::after {
+  color: #ef4444 !important;
+}
+
+.content-wrapper .content .card,
+.content-wrapper .content .card-body,
+.content-wrapper .content .card-header,
+.content-wrapper .content form,
+.content-wrapper .content fieldset,
+.content-wrapper .content .module,
+.content-wrapper .content .form-row,
+.content-wrapper .content .aligned,
+.content-wrapper .content .submit-row {
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+
+.content-wrapper .content p,
+.content-wrapper .content label,
+.content-wrapper .content span,
+.content-wrapper .content div,
+.content-wrapper .content li,
+.content-wrapper .content td,
+.content-wrapper .content th,
+.content-wrapper .content .help,
+.content-wrapper .content .helptext,
+.content-wrapper .content .description,
+.content-wrapper .content .readonly,
+.content-wrapper .content .errornote,
+.content-wrapper .content ul.errorlist,
+.content-wrapper .content .form-row p,
+.content-wrapper .content .form-row label {
+  color: #0f172a !important;
+}
+
+.content-wrapper .content .help,
+.content-wrapper .content .helptext,
+.content-wrapper .content .description {
+  color: #475569 !important;
+}
+
+.content-wrapper .content .card-header,
+.content-wrapper .content .card-title,
+.content-wrapper .content .callout,
+.content-wrapper .content .callout p,
+.content-wrapper .content form > p,
+.content-wrapper .content .module > p {
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+
+.content-wrapper .content .card-header,
+.content-wrapper .content form > p:first-child,
+.content-wrapper .content .module > p:first-child {
+  padding: 18px 24px !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
+.content-wrapper .content .card-body,
+.content-wrapper .content fieldset,
+.content-wrapper .content .form-row {
+  padding-right: 24px !important;
+  padding-left: 24px !important;
+}
+
+.content-wrapper .content input,
+.content-wrapper .content textarea,
+.content-wrapper .content select {
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+
+.content-wrapper .content input::placeholder,
+.content-wrapper .content textarea::placeholder {
+  color: #64748b !important;
+}
+
+body.change-password .content .card,
+body.change-password .content form,
+body.change-password .content .module {
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+
+body.change-password .content .card-header,
+body.change-password .content form > p:first-child,
+body.change-password .content .module > p:first-child {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  padding: 18px 24px !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+}
+
+body.change-password .content .card-body,
+body.change-password .content fieldset,
+body.change-password .content .form-row {
+  padding-right: 24px !important;
+  padding-left: 24px !important;
+}
+
+body.change-password .content fieldset {
+  padding-top: 22px !important;
+  padding-bottom: 22px !important;
+}
+
+body.change-password .content .submit-row {
+  margin-top: 18px !important;
+  padding: 18px 24px !important;
+}
+
+body.change-password .content label,
+body.change-password .content p,
+body.change-password .content li,
+body.change-password .content span,
+body.change-password .content div,
+body.change-password .content .help,
+body.change-password .content .helptext {
+  color: #0f172a !important;
+}
+
+body.change-password .content .help,
+body.change-password .content .helptext,
+body.change-password .content ul {
+  color: #475569 !important;
+}
+
+.selector,
+.selector-available,
+.selector-chosen,
+.selector .selector-filter,
+.selector .selector-filter label,
+.selector h2,
+.selector select,
+.selector option {
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+
+.selector h2 {
+  border: 1px solid #e2e8f0 !important;
+  border-bottom: 0 !important;
+  border-radius: 12px 12px 0 0 !important;
+  font-weight: 800 !important;
+}
+
+.selector .selector-filter {
+  border-right: 1px solid #e2e8f0 !important;
+  border-left: 1px solid #e2e8f0 !important;
+}
+
+.selector .selector-filter input {
+  background: #ffffff !important;
+  color: #0f172a !important;
+  border-color: #cbd5e1 !important;
+}
+
+.selector select {
+  border: 1px solid #e2e8f0 !important;
+  border-radius: 0 0 12px 12px !important;
+}
+
+.selector option:checked,
+.selector option:hover {
+  background: #ecfdf5 !important;
+  color: #0f172a !important;
+}
+
+.dashboard #content-main .module caption,
+.dashboard #content-main .module h2,
+#content-related .module h2,
+.dashboard #content-main .module table,
+.dashboard #content-main .module tbody,
+.dashboard #content-main .module tr,
+.dashboard #content-main .module th,
+.dashboard #content-main .module td,
+.dashboard #content-main .module th a,
+.dashboard #content-main .module td a,
+.dashboard #content-main .module th a:link,
+.dashboard #content-main .module td a:link,
+.dashboard #content-main .module th a:visited,
+.dashboard #content-main .module td a:visited,
+#content-related,
+#content-related .module,
+#content-related .module p,
+#content-related .actionlist,
+#content-related .actionlist li,
+#content-related .actionlist li a,
+#content-related .actionlist li a:link,
+#content-related .actionlist li a:visited {
+  background: #ffffff !important;
+  color: #0f172a !important;
+}
+
+.dashboard #content-main .module tr:hover,
+.dashboard #content-main .module tr:hover th,
+.dashboard #content-main .module tr:hover td {
+  background: #ecfdf5 !important;
+  color: #0f172a !important;
+}
 
 /* The default app list is still Django Admin; make its lower layout use space
    efficiently after the dashboard summary. */
@@ -220,7 +638,16 @@ body,
   }
 
   .ta-dashboard { padding: 20px; }
-  .ta-dashboard-heading { align-items: start; flex-direction: column; }
+  .ta-dashboard-hero {
+    align-items: start;
+    flex-direction: column;
+    padding: 28px 22px 72px;
+  }
+  .ta-stat-grid,
+  .ta-chart-card {
+    margin-right: 0;
+    margin-left: 0;
+  }
   .ta-stat-grid { grid-template-columns: 1fr; }
-  .ta-dashboard-heading h1 { font-size: 28px; }
+  .ta-dashboard-hero h1 { font-size: 30px; }
 }
