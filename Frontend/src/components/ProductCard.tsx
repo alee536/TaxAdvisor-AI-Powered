@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { motion, useReducedMotion } from 'framer-motion';
 import type { Product } from '../api/api';
 
 interface Props {
@@ -23,58 +24,55 @@ export default function ProductCard({ product, featured = false }: Props) {
   const price = parseFloat(product.price);
   const supportedFeatures = FEATURE_LABELS.filter(([key]) => product[key] === true);
   const showFeatures = supportedFeatures.slice(0, 4);
+  const reduceMotion = useReducedMotion();
+  const isPopular = featured || product.name.toLowerCase().includes('deluxe');
 
   return (
-    <div className="card fade-in" style={{
-      display: 'flex',
-      flexDirection: 'column',
-      height: '100%',
-      border: featured ? '2px solid #1e40af' : '1px solid #e2e8f0',
-      position: 'relative',
-    }}>
-      {featured && (
-        <div style={{
-          position: 'absolute',
-          top: '-0.75rem',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          backgroundColor: '#1e40af',
-          color: '#fff',
-          fontSize: '0.7rem',
-          fontWeight: 700,
-          padding: '0.2rem 0.75rem',
-          borderRadius: '9999px',
-          letterSpacing: '0.05em',
-          textTransform: 'uppercase',
-        }}>
-          Popular
-        </div>
+    <motion.div
+      className={`fade-in relative flex h-full flex-col rounded-2xl border-2 bg-white p-6 pt-8 shadow-sm ${
+        isPopular ? 'border-emerald-500' : 'border-slate-200'
+      }`}
+      initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+      whileInView={reduceMotion ? undefined : { opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: reduceMotion ? 0 : 0.35 }}
+      style={{
+        transition: 'transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease',
+      }}
+      whileHover={reduceMotion ? undefined : { y: -4 }}
+    >
+      {isPopular && (
+        <span className="absolute -top-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-emerald-500 px-4 py-1 text-xs font-bold uppercase tracking-wide text-white shadow-md">
+          Most Popular
+        </span>
       )}
 
       <div style={{ marginBottom: '1rem' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.5rem' }}>
-          <h3 style={{ fontSize: '1.2rem', fontWeight: 700, color: '#0f172a', margin: 0 }}>{product.name}</h3>
-          <div style={{ textAlign: 'right' }}>
-            <div style={{ fontSize: '1.4rem', fontWeight: 800, color: '#1e40af' }}>
+        <div className="flex items-start justify-between" style={{ marginBottom: '0.5rem' }}>
+          <h3 className="font-heading text-xl font-bold text-slate-900" style={{ margin: 0 }}>{product.name}</h3>
+          <div className="text-right">
+            <span className="text-2xl font-bold text-emerald-600">
               {price === 0 ? 'Free' : `$${price}`}
-            </div>
-            {price > 0 && <div style={{ fontSize: '0.75rem', color: '#64748b' }}>{product.currency}</div>}
+            </span>
+            {price > 0 && product.currency && (
+              <div className="text-xs text-slate-500">{product.currency}</div>
+            )}
           </div>
         </div>
 
-        <p style={{ fontSize: '0.875rem', color: '#475569', marginBottom: '0.75rem', lineHeight: '1.5' }}>
+        <p style={{ fontSize: '0.875rem', color: 'var(--color-body-text)', marginBottom: '0.75rem', lineHeight: '1.5' }}>
           {product.description}
         </p>
 
         <div style={{
           backgroundColor: '#f8fafc',
-          border: '1px solid #e2e8f0',
+          border: '1px solid var(--color-card-border)',
           borderRadius: '0.5rem',
           padding: '0.625rem 0.875rem',
           marginBottom: '1rem',
         }}>
-          <p style={{ fontSize: '0.8rem', color: '#64748b', margin: 0, fontWeight: 500 }}>
-            <span style={{ color: '#1e40af', marginRight: '0.25rem' }}>Best for:</span>
+          <p style={{ fontSize: '0.8rem', color: 'var(--color-body-text)', margin: 0, fontWeight: 500 }}>
+            <span style={{ color: 'var(--color-accent)', marginRight: '0.25rem' }}>Best for:</span>
             {product.best_for}
           </p>
         </div>
@@ -107,6 +105,6 @@ export default function ProductCard({ product, featured = false }: Props) {
           Compare
         </Link>
       </div>
-    </div>
+    </motion.div>
   );
 }
